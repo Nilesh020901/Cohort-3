@@ -5,10 +5,16 @@
 */
 
 function isAnagram(str1, str2) {
-  let word1 = str1.toLowerCase().replace(/[^a-z0-9]/g, '').split('').sort().join('');
-  let word2 = str2.toLowerCase().replace(/[^a-z0-9]/g, '').split('').sort().join('');
+  const cleanStr = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, '').split('').sort().join('');
 
-  return word1 === word2
+  let word1 = cleanStr(str1);
+  let word2 = cleanStr(str2);
+
+  if (word1.length !== word2.length) {
+    return false;
+  }
+
+  return word1 == word2;
 
 }
 

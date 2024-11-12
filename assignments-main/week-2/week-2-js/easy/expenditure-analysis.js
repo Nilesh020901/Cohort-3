@@ -27,10 +27,10 @@ function calculateTotalSpentByCategory(transactions) {
     }
   });
 
-  const result = object.keys(categoryTotals).map(category => {
+  const result = Object.keys(categoryTotals).map((category) => {
     return {
       category: category,
-      totalSpent: categoryTotals[category]
+      totalSpent: categoryTotals[category],
     };
   });
   return result;

@@ -5,6 +5,10 @@
 */
 
 function isAnagram(str1, str2) {
+  let word1 = str1.toLowerCase().replace(/[^a-z0-9]/g, '').split('').sort().join('');
+  let word2 = str2.toLowerCase().replace(/[^a-z0-9]/g, '').split('').sort().join('');
+
+  return word1 === word2
 
 }
 

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish Live Clock</title>
+    <style>
+        /* Basic reset and background styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: linear-gradient(to top, #c471f5 0%, #fa71cd 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Main clock container */
+        #clock {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        #clock div {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        #clock div:first-child {
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+        }
+
+        /* Shadow effect for time */
+        #clock div {
+            text-shadow: 0px 0px 5px rgba(255, 255, 255, 1), 0px 0px 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Style for the second line (AM/PM format) */
+        #clock div:last-child {
+            color: #FFE900; /* Bright yellow for the AM/PM time */
+        }
+
+        /* Smooth transition effects for changing the time */
+        #clock {
+            opacity: 1;
+            transform: scale(1);
+        }
+        #clock.hidden {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+<body>
+	<div id="clock"></div>
+
+	<script>
+		
+		function updateClock() {
+			//call date fun
+			const now = new Date();
+
+			//get the data from date
+			let hours = now.getHours();
+			let minutes = now.getMinutes();
+			let seconds = now.getSeconds();
+
+			//format 24hrs
+			let time24 = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+
+			//format for 12hrs
+			let period = hours >= 12 ? 'PM' : 'AM';
+			let hours12 = hours%12;
+			hours12 = hours12 ? hours12 : 12; //hrs '0'=>'12'
+			let time12 = `${hours12 < 10 ? '0' + hours12 : hours12}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds} ${period}`;
+
+			//Display both
+			document.getElementById("clock").innerHTML = `
+			<div>${time24}</div>
+			<div>${time12}</div>
+			`;
+		}
+
+		setInterval(updateClock, 1000) //call fun every second after first call
+
+		//first call
+		updateClock();
+	</script>
+</body>
+</html>

@@ -5,19 +5,41 @@
  */
 
 function wait1(t) {
-
-}
-
-function wait2(t) {
-
-}
-
-function wait3(t) {
-
-}
-
-function calculateTime(t1, t2, t3) {
-
-}
+    return new Promise((resolve)=>{
+      setTimeout(()=>{
+        resolve('First promise resolved after '+t+' time');
+      }, t);
+    });
+  }
+  
+  function wait2(t) {
+    return new Promise((resolve)=>{
+      setTimeout(()=>{
+        resolve('Second promise resolved after '+t+' time');
+      }, t);
+    });
+  }
+  
+  function wait3(t) {
+    return new Promise((resolve)=>{
+      setTimeout(()=>{
+        resolve('Third promise resolved after '+t+' time')
+      }, t);
+    });
+  }
+  
+  function calculateTime(t1, t2, t3) {
+    const st = Date.now(); //start time
+  
+    return Promise.all([wait1(t1), wait2(t2), wait3(t3)]).then(()=>{
+      const et = Date.now(); //end time
+      const total = et - st;
+      console.log('All promises resolved');
+      console.log('Total time taken: ' + total + 's');
+      return total;
+    }).catch((error)=>{
+      console.error('One of the promises rejected:', error);
+    });
+  }
 
 module.exports = calculateTime;

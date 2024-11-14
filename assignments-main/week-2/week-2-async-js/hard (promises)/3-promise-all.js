@@ -7,24 +7,24 @@
 function wait1(t) {
     return new Promise((resolve)=>{
       setTimeout(()=>{
-        resolve('First promise resolved after '+t+' time');
-      }, t);
+        resolve(`First promise resolved after ${t} time`);
+      }, t*1000);
     });
   }
   
   function wait2(t) {
     return new Promise((resolve)=>{
       setTimeout(()=>{
-        resolve('Second promise resolved after '+t+' time');
-      }, t);
+        resolve(`Second promise resolved after ${t} time`);
+      }, t*1000);
     });
   }
   
   function wait3(t) {
     return new Promise((resolve)=>{
       setTimeout(()=>{
-        resolve('Third promise resolved after '+t+' time')
-      }, t);
+        resolve(`Third promise resolved after ${t} time`)
+      }, t*1000);
     });
   }
   
@@ -34,8 +34,9 @@ function wait1(t) {
     return Promise.all([wait1(t1), wait2(t2), wait3(t3)]).then(()=>{
       const et = Date.now(); //end time
       const total = et - st;
+      const totalSec = total / 1000;
       console.log('All promises resolved');
-      console.log('Total time taken: ' + total + 's');
+      console.log('Total time taken: ' + totalSec + 's');
       return total;
     }).catch((error)=>{
       console.error('One of the promises rejected:', error);

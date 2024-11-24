@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
-
 // This object will hold the count of requests per user
 let numberOfRequestsForUser = {};
+
 
 // Store the interval ID so we can clear it in tests
 let resetInterval;

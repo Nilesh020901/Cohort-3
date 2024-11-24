@@ -11,28 +11,48 @@ const app = express();
 // You have been given a numberOfRequestsForUser object to start off with which
 // clears every one second
 
+// This object will hold the count of requests per user
 let numberOfRequestsForUser = {};
-setInterval(() => {
-    numberOfRequestsForUser = {};
-}, 1000)
+
+// Store the interval ID so we can clear it in tests
+let resetInterval;
+
+// Middleware to rate limit based on user-id
 
 app.use((req, res, next) => {
-  const userId = req.headers['user-id'];
+  const userId = req.header('user-id');
 
   if (!userId) {
     return res.status(400).json({error: 'User ID is required in headers'});
   }
 
+  const currentTime = Math.floor(Date.now() / 1000); //Current second timestamp
+
+  // Initialize user data if not already present
   if (!numberOfRequestsForUser[userId]) {
-    numberOfRequestsForUser[userId] = 0;
+    numberOfRequestsForUser[userId] = {count: 0, lastRequestTime: currentTime};
   }
 
-  if (numberOfRequestsForUser[userId] > 5) {
+  const userData = numberOfRequestsForUser[userId];
+
+  if (currentTime === userData.lastRequestTime) {
+    userData.count += 1;
+  }
+  else {
+    userData.count = 1;
+    userData.lastRequestTime = currentTime;
+  }
+
+  if (userData.count > 5) {
     return res.status(404).json({error: 'User Id hit more 5 times'})
   }
 
   next();
 });
+
+resetInterval = setInterval(() => {
+    numberOfRequestsForUser = {};
+}, 1000)
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });

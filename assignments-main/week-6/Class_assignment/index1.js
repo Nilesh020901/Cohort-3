@@ -27,7 +27,7 @@ app.post("/signin", (req, res) => {
   const user = users.find(user => user.username === username && user.password === password);
 
   if (user) {
-    const token = JWT_SECRET.sign({
+    const token = jwt.sign({
       username: user.username
     }, JWT_SECRET)
     user.token = token;
@@ -45,8 +45,11 @@ app.post("/signin", (req, res) => {
 
 app.get("/me", (req, res)=>{
   const token = req.headers.authorization;
-  const user = users.find(user => user.token === token);
+  const userDetails = jwt.verify(token, JWT_SECRET);
 
+  const username = userDetails.username;
+  const user = users.find(user => user.username === username);
+  
   if (user) {
     res.send({
       username: user.username

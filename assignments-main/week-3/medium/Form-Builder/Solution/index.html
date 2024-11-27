@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Form Builder</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Form Builder</h1>
+
+        <!-- form selection -->
+        <div class="field-option">
+            <label for="field-type">Select Field Type:</label>
+            <select id="field-type">
+                <option value="text">Text Input</option>
+                <option value="checkbox">Checkbox</option>
+                <option value="radio">Radio Button</option>
+            </select>
+
+            <button id="add-field-btn">Add Field</button>
+        </div>
+
+        <!-- preview area -->
+        <h2>Form Preview</h2>
+        <form id="form-preview"></form>
+
+        <!-- generated form output -->
+        <h2>Generated Form HTML</h2>
+        <textarea id="form-html" rows="10" readonly></textarea>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

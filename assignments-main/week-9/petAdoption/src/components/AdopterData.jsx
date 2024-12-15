@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export class AdopterData extends Component {
   render() {
     return (
-      <div>AdopterData</div>
+      <div></div>
     )
   }
 }

@@ -2,7 +2,11 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div>Header</div>
+    <>
+    <nav style={{backgroundColor: "#c59771bd", padding: "16px 32px"}}>
+      <h1></h1>
+    </nav>
+    </>
   )
 }
 

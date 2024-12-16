@@ -27,10 +27,11 @@ const Timer = () => {
         </div>
       </div>
       <div className={style.actionButtons}>
-        <button className={style.actionButton} onClick={() => setIsRunning(!isRunning)}>{isRunning ? }</button>
+        <button className={style.actionButton} onClick={() => setIsRunning(!isRunning)}>{isRunning ? 'Pause' : 'Start' }</button> {/* Toggle between Start and Pause */}
+        <button className={style.actionButton} onClick={()=>{ setTime(0); setInitialTime(0); setIsRunning(false); }}>Reset</button> {/* Reset the timer */}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Timer

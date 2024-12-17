@@ -26,7 +26,7 @@ export default function AuthSystem() {
     <AuthContext.Provider value={contextValue}>
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
         <AppBar username={username} isLoggedIn={isLoggedIn} logout={logout} />
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "1rem" backgroundColor: "#f0f0f0" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "1rem", backgroundColor: "#f0f0f0" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <input id="use-context-api" type="checkbox" onChange={(e)=>setUseContextApi(e.target.checked)} />
             <label htmlFor="use-context-api">

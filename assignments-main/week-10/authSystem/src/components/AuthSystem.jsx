@@ -10,10 +10,18 @@ export default function AuthSystem() {
   const [username, setUsername] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const login = (newUsername) => {
+    setUsername(newUsername);
+    setIsLoggedIn(true);
+  }
+
   const logout = () => {
     setUsername('');
     setIsLoggedIn(false);
-  }
+  };
+
+  const contextValue = UseContextApi ? { username, isLoggedIn, login, logout } : undefined;
+  
   return (
     <AuthContext.Provider value={contextValue}>
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -38,4 +46,3 @@ export default function AuthSystem() {
   );
 }
 
-export default AuthSystem

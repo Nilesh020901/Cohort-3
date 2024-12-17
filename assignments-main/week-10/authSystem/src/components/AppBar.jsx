@@ -14,7 +14,7 @@ const AppBar = ({ username: propUsername, isLoggedIn: propIsLoggedIn, logout: pr
       {displayIsLoggedIn ? (
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <span>Welcome, {displayUsername}!</span>
-          <button onClick={handleLogout} style={{ backgroundColor: "white", color="#3f51b5", border: "none", padding: "0.5rem 1rem", boderRadius: "4px", cursor: "pointer" }}>Logout</button>
+          <button onClick={handleLogout} style={{ backgroundColor: "white", color: "#3f51b5", border: "none", padding: "0.5rem 1rem", boderRadius: "4px", cursor: "pointer" }}>Logout</button>
         </div>
         ) : (
           <span>Not logged in</span>

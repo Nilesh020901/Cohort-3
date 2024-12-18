@@ -31,7 +31,7 @@ const FetchApiExample = () => {
       <h1>Posts</h1>
       <ul>
         {data.map((post) => (
-            <li key={post.id}>{post.title}</li>
+            <li key={post.id} style={{ textAlign: "left" }}>{post.title}</li>
         ))}
       </ul>
     </div>

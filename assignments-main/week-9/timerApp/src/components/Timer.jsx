@@ -25,7 +25,9 @@ const Timer = () => {
       setIsRunning(false);
     }
     return () => {
-      if (interval) clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+      }
     };
   }, [isRunning, time]);
 

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Minus, Plus } from "lucide-react";
-import { cartItemsState } from "../../solutionsrc/store/cartItemsState";
-import { cartTotalSelector } from "../../solutionsrc/store/cartTotalSelector";
+import { cartItemsState } from "../store/cartItemsState";
+import { cartTotalSelector } from "../store/cartTotalSelector";
 import { styles } from "./AmazonStyleCart.module.js";
 import { Header, PurchaseModal } from "./"
 

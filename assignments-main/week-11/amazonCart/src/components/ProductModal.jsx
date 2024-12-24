@@ -1,5 +1,4 @@
-import { styles } from "../../solutionsrc/components/AmazonStyleCart.module";
-
+import { styles } from "./ProductModal.module.js";
 const ProductModal = ({ product, isOpen, onClose }) => {
     if(!isOpen) return null;
 

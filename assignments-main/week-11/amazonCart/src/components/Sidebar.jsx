@@ -1,4 +1,5 @@
-import { styles } from "../../solutionsrc/components/AmazonStyleCart.module";
+import { styles } from './WishListStyles.module';
+
 const Sidebar = () => {
     return (
         <aside style={styles.sidebar}>

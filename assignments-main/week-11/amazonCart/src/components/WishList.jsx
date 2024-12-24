@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { cartItemsState } from "../../solutionsrc/store/cartItemsState";
-import { cartTotalSelector } from "../../solutionsrc/store/cartTotalSelector";
+import { cartItemsState } from "../store/cartItemsState";
+import { cartTotalSelector } from "../store/cartTotalSelector";
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { styles } from "../../solutionsrc/components/AmazonStyleCart.module";
-import { ProductModal, Header, Sidebar } from "../../solutionsrc/components";
-import { wishItemsState } from "../../solutionsrc/store/wishItemsState";
+import { styles } from "./WishListStyles.module.js";
+import { ProductModal, Header, Sidebar } from "./";
+import { wishItemsState } from "../store/wishItemsState.js";
 
 const WishList = () => {
     const { total, itemCount } = useRecoilValue(cartTotalSelector);

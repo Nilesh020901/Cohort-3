@@ -81,7 +81,7 @@ const WishList = () => {
                                 </button>
                                 <button
                                     style={styles.quickViewButton}
-                                    onClick={() => handleOpenModel(product)}
+                                    onClick={() => handleOpenModal(product)}
                                     aria-label={`Quick View ${product.name}`}>
                                     Quick View
                                 </button>

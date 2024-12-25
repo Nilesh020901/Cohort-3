@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const wishItemState = atom({
+export const wishItemsState = atom({
 	key: 'wishItemState', // Unique ID (with respect to other atoms/selectors)
 	default: [
 		{

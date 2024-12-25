@@ -1,15 +1,17 @@
-import { Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { AmazonStyleCart, WishList } from "./components"
 import './App.css'
-import AmazonStyleCart from "./components/AmazonStyleCart"
 
 function App() {
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<WhishList />}/>
-        <Route path="/cart" element={<AmazonStyleCart />} />
-      </Routes>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<WishList />} />
+          <Route path="/cart" element={<AmazonStyleCart />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

@@ -15,7 +15,7 @@ const EmailInput = () => {
         const generatedOtp = generateOtp();
         setOtp(generatedOtp);
         alert(`OTP sent to ${email}: ${generatedOtp}`);
-        navigate('/otp');
+        navigate('/otp', { state: { email }});
     }
 
     return (

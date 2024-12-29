@@ -2,11 +2,11 @@ import React from 'react';
 
 const ProfileCard = () => {
     return (
-        <div className="flex items-center p-4 bg-white shadow rounded-lg">
+        <div className="flex flex-col items-center bg-white shadow rounded-lg m-4 pb">
             <img
                 src="https://via.placeholder.com/80"
                 alt="Profile"
-                className="w-16 h-16 rounded-full mr-4"
+                className="w-16 h-16 rounded-lg mr-4"
             />
             <div>
                 <h2 className="font-bold text-lg">Prabhleen Kaur</h2>

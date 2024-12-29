@@ -2,9 +2,10 @@ import React from 'react';
 
 const Greeting = () => {
     return (
-        <div className="mb-4">
-            <h1 className="text-2xl font-bold">Good morning, Prabhleen! 👋</h1>
-            <p className="text-gray-600">Monday, 14 October 2024</p>
+        <div className="my-8">
+            <p className="text-gray-600 mb-3 font-semibold">Monday, 14 October 2024</p>
+            <h1 className="text-3xl text-sky-950 font-bold">Good morning, Nilesh! 👋</h1>
+            
         </div>
     );
 };

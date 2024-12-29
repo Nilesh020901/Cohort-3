@@ -2,16 +2,17 @@ import React from 'react';
 
 const ProfileCard = () => {
     return (
-        <div className="flex flex-col items-center bg-white shadow rounded-lg m-4 pb">
+        <div className="flex flex-col items-center justify-center rounded-lg shadow-lg h-80 -translate-y-12 bg-white">
             <img
-                src="https://via.placeholder.com/80"
+                src="https://dummyimage.com/80x80/cccccc/ffffff"
                 alt="Profile"
-                className="w-16 h-16 rounded-lg mr-4"
+                className="w-24 h-24 rounded-2xl"
             />
-            <div>
-                <h2 className="font-bold text-lg">Prabhleen Kaur</h2>
-                <p className="text-gray-600">prabhleen@gmail.com</p>
-                <p className="text-gray-600">Delhi, India</p>
+            <div className='mt-6 text-center'>
+                <h2 className="font-bold text-lg mb-2">Nilesh Soni</h2>
+                <p className="text-gray-600 mb-1 font-medium">nileshsoni@gmail.com</p>
+                <p className="text-gray-600 mb-2 font-medium">8356004765</p>
+                <p className="text-gray-600 font-medium">Mumbai, India</p>
             </div>
         </div>
     );

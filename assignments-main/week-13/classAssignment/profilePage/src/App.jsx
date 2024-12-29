@@ -13,16 +13,20 @@ function App() {
       <div>
         <Header />
         <div className="flex">
-          <Sidebar />
-          <div className="flex">
-            <div>
+          <div >
+            <Sidebar />
+          </div>
+          <div className="grid grid-cols-9 gap-8 w-full px-10 bg-slate-50">
+            <div className="col-span-2">
               <ProfileCard />
             </div>
-            <div>
+            <div className="col-span-7">
               <Greeting />
-              <WebinarList />
+              <div className="grid grid-cols-7 gap-8">
+                <WebinarList />
+                <QuickAction />
+              </div>
             </div>
-            <div><QuickAction /></div>
           </div>
         </div>
       </div>

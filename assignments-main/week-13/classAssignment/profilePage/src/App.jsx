@@ -10,17 +10,17 @@ function App() {
 
   return (
     <>
-        <div className="flex">
+        <div className="flex h-screen bg-slate-50 pb-5">
           <div className="h-screen">
             <Sidebar />
           </div>
           <div>
             <div><Header /></div>
-            <div className="grid grid-cols-9 gap-8 w-full px-10 bg-slate-50">
-              <div className="col-span-2">
+            <div className="grid grid-cols-9 gap-8 w-full px-10 ">
+              <div className="col-span-9 md:col-span-2">
                 <ProfileCard />
               </div>
-              <div className="col-span-7">
+              <div className="col-span-9 md:col-span-7">
                 <Greeting />
                 <div className="grid grid-cols-7 gap-8">
                   <WebinarList />

@@ -3,7 +3,12 @@ const FilterMenu = () => {
         <div className="bg-gray-700 text-white p-4 rounded-md">
             <h3 className="text-lg font-bold">Filters</h3>
             <div className="">
-                <label></label>
+                <label>
+                    <input type="checkbox" /> Todo
+                </label>
+                <label>
+                    <input type="checkbox" /> Solved
+                </label>
             </div>
         </div>
     )

@@ -1,11 +1,14 @@
+import React from "react"
+import { RecoilRoot } from "recoil";
+import LandingPage from "./pages/LandingPages";
+
 function App() {
 
-
   return (
-    <>
-      <div>hi there</div>
-    </>
+    <RecoilRoot>
+      <LandingPage />
+    </RecoilRoot>
   )
 }
 
-export default App
+export default App;

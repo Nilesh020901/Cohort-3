@@ -1,5 +1,4 @@
 import mongoose, { Document, Model, Schema, Types } from "mongoose";
-import { number } from "zod";
 
 const { ObjectId } = Types;
 

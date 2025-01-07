@@ -47,7 +47,7 @@ userRouter.post("/signin", async function (req, res) {
     try {
         const { email, password } = signinSchema.parse(req.body);
 
-        const user = await userModel.findOne({ user });
+        const user = await userModel.findOne({ email });
         if (!user || !(await brcypt.compare(password, user.hashedPassword))) {
             return res.status(403).json({
                 message: "Incorrect credentials or user not found",

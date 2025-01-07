@@ -27,8 +27,8 @@ interface ICourse extends Document {
 }
 
 interface IPurchase extends Document {
-    userId: Types.ObjectId,
-    courseId: Types.ObjectId
+    userId: Types.ObjectId;
+    courseId: Types.ObjectId;
 
 }
 
@@ -51,15 +51,15 @@ const courseSchema = new Schema<ICourse>({
     description: { type: String, required: true },
     price: { type: Number, required: true },
     imageUrl: { type: String, required: true },
-    creatorId: { type: ObjectId, required: true },
+    creatorId: { type: Schema.Types.ObjectId, required: true },
 })
 
 const purchaseSchema = new Schema<IPurchase>({
-    userId: { type: ObjectId, required: true },
-  courseId: { type: ObjectId, required: true },
+    userId: { type: Schema.Types.ObjectId, required: true },
+  courseId: { type: Schema.Types.ObjectId, required: true },
 });
 
-const userModel: Model<IUser> = mongoose.model<IUser>("user". userSchema);
+const userModel: Model<IUser> = mongoose.model<IUser>("user", userSchema);
 const adminModel: Model<IAdmin> = mongoose.model<IAdmin>("admin", adminSchema);
 const courseModel: Model<ICourse> = mongoose.model<ICourse>("course", courseSchema);
 const purchaseModel: Model<IPurchase> = mongoose.model<IPurchase>("purchase", purchaseSchema);

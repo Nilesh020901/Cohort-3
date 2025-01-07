@@ -62,3 +62,27 @@ userRouter.post("/signin", async (req:Request, res:Response): Promise<any> => {
         })
     }
 })
+
+userRouter.get("/purchase", userMiddleware, async (req:Request, res:Response) => {
+    try {
+        const userId = req.body
+        const purchases = await purchaseModel.find({ userId })
+
+        const purchasedCourseIds = purchases.map((purchase) => purchase.courseId);
+
+        const courseData = await courseModel.find({
+            _id: { $in: purchasedCourseIds },
+        });
+        res.json({
+            message: "Purchases fetched successfully",
+            purchases,
+            courses: courseData
+        })
+    } catch (error:any) {
+        res.status(500).json({
+            message: error.message || "Failed to fetch purchases",
+        });
+    }
+});
+
+export { userRouter };

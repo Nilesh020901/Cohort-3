@@ -65,7 +65,7 @@ adminRouter.post("/signin", async function(req: Request, res: Response): Promise
     }
 })
 
-adminMiddleware.post("/course", adminMiddleware, async function (req:Request, res:Response) {
+adminRouter.post("/course", adminMiddleware, async function (req:Request, res:Response) {
     try {
         const adminId = req.userId; //adminMiddleware se layega userId
         const { title, description, imageUrl, price } = req.body;

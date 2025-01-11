@@ -107,7 +107,7 @@ app.post("/api/v1/content", userMiddleware, async (req: Request, res: Response):
         const { type, link, title, tags } = contentValidationSchema.parse(req.body);
         
         //new content banao
-        const newContent = await content.create({
+        const newContent = await Content.create({
             type,
             link,
             title,
@@ -159,7 +159,7 @@ app.post("/api/v1/brain/share", userMiddleware, async (req: Request, res: Respon
         }
 
         //check content user ka hai
-        if (content.userId.toString() != req.userId) {
+        if (contentId.userId.toString() != req.userId) {
             return res.status(403).json({ message: "You do not have permission to delete this content." });
         }
 

@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { z } from "zod";
-import { Content, User } from "./db";
+import { Content, User, Link } from "./db";
+import { userMiddleware } from "./middleware";
 //import middleware
 
 const app = express();
@@ -128,7 +129,7 @@ app.post("/api/v1/content", userMiddleware, async (req: Request, res: Response):
 app.get("/api/v1/content", userMiddleware, async (req: Request, res: Response): Promise<any> => {
     try {
         //fetch all content
-        const content = await Content.find({ userId: req.userID })
+        const content = await Content.find({ userId: req.userId })
         .populate("tags", "name") //populate tags details
         .select("_id type link title tags");
 
@@ -148,7 +149,7 @@ app.get("/api/v1/content", userMiddleware, async (req: Request, res: Response): 
     }
 });
 
-app.post("/api/v1/brain/share", userMiddleware, (req: Request, res: Response): Promise<any> => {
+app.post("/api/v1/brain/share", userMiddleware, async (req: Request, res: Response): Promise<any> => {
     try {
         const { contentId } = req.body;
 
@@ -170,6 +171,35 @@ app.post("/api/v1/brain/share", userMiddleware, (req: Request, res: Response): P
     }
 })
 
-app.post("/api/v1/brain/:shareLink", (req, res) => {
-    
+app.get("/api/v1/brain/:shareLink", async (req, res): Promise<any> => {
+    try {
+        const { shareLink } = req.params;
+        const link = await Link.findOne({ harsh: shareLink });
+
+        if (!link) {
+            return res.status(404).json({ message: "Invalid Link" });
+        }
+
+        const userContent = await Content.find({ userId: link.userId }).select("-userId");
+        const user = await User.findById(link.userId).select("username");
+
+        if(!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        res.status(200).json({
+            username: user.username,
+            content: userContent
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal server error"
+        });
+    }
+})
+
+//start server
+const PORT = process.env.port || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 })

@@ -8,7 +8,7 @@ import { useRecoilValue } from "recoil";
 import { questionState } from "../recoil/atoms";
 
 const LandingPage = () => {
-    const questions = useRecoilValue(questionState);
+    // const questions = useRecoilValue(questionState);
 
     return(
         <div className="flex h-screen bg-zinc-900">
@@ -18,7 +18,7 @@ const LandingPage = () => {
                 <div className="flex mt-4">
                     <ProgressCard />
                 </div>
-                <QuestionList questions={questions} />
+                {/* <QuestionList questions={questions} /> */}
             </div>
         </div>
     );

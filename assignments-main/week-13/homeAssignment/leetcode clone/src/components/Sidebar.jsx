@@ -1,24 +1,23 @@
-import React, { useState } from "react";
+
 
 const Sidebar = () => {
-    const [open, setOpen] = useState(true);
 
     return (
-        <div className={`${open ? w-64 : w:16} h-screen ` }>
-            <div className=" bg-zinc-800 text-neutral-100 px-7 py-8">
-                <div >
-                    <div className="flex justify-between items-center">
-                        <h2 className="text-lg font-semibold">My Lists</h2>
-                        <div>
-                            <svg className="h-4 w-4 text-neutral-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <line x1="9" y1="3" x2="9" y2="21" /></svg>
-                        </div>
+        <div className="w-64 bg-zinc-800">
+            <div className="mx-7 my-10">
+                <div className="flex justify-between items-center ">
+                    <h3>My Lists</h3>
+                    <div>
+                        <svg className="h-4 w-4 text-neutral-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <line x1="9" y1="3" x2="9" y2="21" /></svg>
                     </div>
-
-                    <div className="p-2 rounded-md">
-                        <span className="flex items-center">
-                            <span className="text-yellow-400">⭐</span> Favorite
-                        </span>
+                </div>
+                <h4>Created by me</h4>
+                <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                        <div>icon</div>
+                        <p>Favorite</p>
                     </div>
+                    <div>icon</div>
                 </div>
             </div>
         </div>

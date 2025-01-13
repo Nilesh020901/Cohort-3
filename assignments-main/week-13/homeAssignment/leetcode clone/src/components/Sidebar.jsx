@@ -1,18 +1,24 @@
-const Sidebar = () => {
-    return (
-        <div className="w-64 bg-zinc-800 text-neutral-100 h-screen px-7 py-8">
-            <div >
-                <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-semibold">My Lists</h2>
-                    <div>
-                        <svg className="h-4 w-4 text-neutral-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <line x1="9" y1="3" x2="9" y2="21" /></svg>
-                    </div>
-                </div>
+import React, { useState } from "react";
 
-                <div className="p-2 rounded-md">
-                    <span className="flex items-center">
-                        <span className="text-yellow-400">⭐</span> Favorite
-                    </span>
+const Sidebar = () => {
+    const [open, setOpen] = useState(true);
+
+    return (
+        <div className={`${open ? w-64 : w:16} h-screen ` }>
+            <div className=" bg-zinc-800 text-neutral-100 px-7 py-8">
+                <div >
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-lg font-semibold">My Lists</h2>
+                        <div>
+                            <svg className="h-4 w-4 text-neutral-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <line x1="9" y1="3" x2="9" y2="21" /></svg>
+                        </div>
+                    </div>
+
+                    <div className="p-2 rounded-md">
+                        <span className="flex items-center">
+                            <span className="text-yellow-400">⭐</span> Favorite
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

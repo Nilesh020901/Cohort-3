@@ -11,12 +11,14 @@ const LandingPage = () => {
     // const questions = useRecoilValue(questionState);
 
     return(
-        <div className="flex h-screen bg-zinc-900">
+        <div className="flex h-screen bg-black-900">
             <Sidebar />
-            <div className="flex-1 bg-gray-900 p-4">
-                <Header />
-                <div className="flex mt-4">
-                    <ProgressCard />
+            <div className="grid grid-cols-5 w-full px-10 py-7 gap-10">
+                <div className="col-span-2">
+                    <Header />
+                </div>
+                <div className="col-span-3">
+                    <QuestionList />
                 </div>
                 {/* <QuestionList questions={questions} /> */}
             </div>

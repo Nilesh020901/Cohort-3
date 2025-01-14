@@ -1,20 +1,23 @@
-const ProgressCard = () => {
-    return (
-        <div className="bg-gray-800 text-white p-4 rounded-md w-1/3">
-            <h3 className="text-lg font-bold">Progress</h3>
-            <div className="flex justify-between items-center mt-4">
-                <div>
-                    <p className="text-green-400 text-2xl font-bold">19/19</p>
-                    <p className="text-sm">Solved</p>
-                </div>
-                <div className="text-sm">
-                    <p>Easy: 11</p>
-                    <p>Medium: 7</p>
-                    <p>Hard: 1</p>
-                </div>
-            </div>
-        </div>
-    );
-};
+// src/components/ProgressBar.jsx  
+import React from 'react';  
+
+const ProgressCard = ({ percentage, easyCount, medCount, hardCount }) => {  
+  return (  
+    <div className="my-4">  
+      <div className="flex justify-between">  
+        <span>Progress</span>  
+        <span>{percentage}% Acceptance</span>  
+      </div>  
+      <div className="w-full h-2 bg-gray-300 rounded-full">  
+        <div style={{ width: `${percentage}%` }} className="h-2 bg-green-500 rounded-full" />  
+      </div>  
+      <div className="flex justify-between mt-1">  
+        <span>Easy: {easyCount}</span>  
+        <span>Med: {medCount}</span>  
+        <span>Hard: {hardCount}</span>  
+      </div>  
+    </div>  
+  );  
+};  
 
 export default ProgressCard;

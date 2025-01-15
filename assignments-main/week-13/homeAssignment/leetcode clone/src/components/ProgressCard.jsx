@@ -12,7 +12,7 @@ const ProgressCard = ({ percentage, easyCount, medCount, hardCount }) => {
         <div style={{ width: `${percentage}%` }} className="h-2 bg-green-500 rounded-full" />  
       </div>  
       <div className="flex justify-between mt-1">  
-        <span>Easy: {easyCount}</span>  
+        <span>Easy: {easyCount}</span>
         <span>Med: {medCount}</span>  
         <span>Hard: {hardCount}</span>  
       </div>  

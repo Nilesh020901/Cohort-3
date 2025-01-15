@@ -35,6 +35,16 @@ const FilterMenu = () => {
                 <span className="font-medium">Attempted</span>
               </label>
             </div>
+            <h3 className="font-semibold text-bold">Difficulty</h3>
+            {['Easy', 'Medium', 'Hard'].map((difficulty) => (
+              <label key={difficulty} className="flex items-center mt-4">
+                <input type="checkbox"
+                  name="difficulty"
+                  value={difficulty}
+                  checked={selectedDifficulty === difficulty}
+                  onChange={() => handleDifficultyChange(difficulty)} />
+              </label>
+            ))}
           </div>
         </div>
       )}

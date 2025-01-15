@@ -1,4 +1,5 @@
 import React from "react";
+import FilterMenu from "./FilterMenu";
 
 const questions = [
     { id: 14, title: "Longest Common Prefix", difficulty: "Easy" },
@@ -16,7 +17,8 @@ const questions = [
 
 const QuestionList = () => {
     return (
-        <div className="p-3">
+        <div>
+            <FilterMenu />
             {questions.map((q, index) => (
                 <div key={q.id} className={`flex justify-between py-3 px-8 rounded-lg ${
                     index % 2 === 0 ? 'bg-black-800' : 'bg-black-900'

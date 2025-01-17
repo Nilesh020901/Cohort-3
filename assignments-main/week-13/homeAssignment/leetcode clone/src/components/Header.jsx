@@ -1,12 +1,14 @@
+import ProgressCard from "./ProgressCard";
+
 const Header = () => {
     return (
         <div className="col-span-2 bg-black-800 p-7 rounded-xl">
-            <div className="w-20 h-20 bg-neutral-100 rounded-md flex justify-center items-center mb-4">
+            <div className="w-24 h-24 bg-neutral-100 rounded-md flex justify-center items-center mb-6">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="w-12 h-12 text-yellow-900"
+                    className="w-16 h-16 text-yellow-900"
                 >
                     <path
                         fillRule="evenodd"
@@ -15,8 +17,8 @@ const Header = () => {
                     />
                 </svg>
             </div>
-            <h1 className="text-neutral-100 text-4xl font-semibold mb-4">Favorite</h1>
-            <div className="text-neutral-100 flex justify-center items-center mb-4">
+            <h1 className="text-neutral-100 text-4xl font-semibold mb-6">Favorite</h1>
+            <div className="text-neutral-100 flex items-center mb-4">
                 <div className="flex justify-center items-center font-medium">
                     Nilesh . 19 questions .
                     <span className="mx-1">
@@ -54,7 +56,7 @@ const Header = () => {
                     </span>
                 </div>
             </div>
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-4 mb-6">
                 <div className="flex gap-2 bg-neutral-100 px-4 py-2 rounded-3xl items-center cursor-pointer">
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -70,6 +72,9 @@ const Header = () => {
                 </div>
             </div>
             <div className="border border-black-600"></div>
+            <div>
+                <ProgressCard />
+            </div>
         </div>
     )
 }

@@ -20,7 +20,7 @@ const QuestionList = () => {
         <div>
             <FilterMenu />
             {questions.map((q, index) => (
-                <div key={q.id} className={`flex justify-between py-3 px-8 rounded-lg ${
+                <div key={q.id} className={`flex justify-between py-4 px-8 rounded-lg ${
                     index % 2 === 0 ? 'bg-black-800' : 'bg-black-900'
                 }`}>
                     <span className="flex  justify-center items-center gap-4">

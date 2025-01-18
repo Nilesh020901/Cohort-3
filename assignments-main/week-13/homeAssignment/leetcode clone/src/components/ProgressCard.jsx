@@ -2,6 +2,7 @@
 import React from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import ProgressCircle from "./ProgressCircle";
 
 const ProgressCard = () => {
   const totalSolved = 19;
@@ -34,19 +35,7 @@ const ProgressCard = () => {
       <div className="grid grid-cols-7 gap-4">
         {/* Progress Bar */}
         <div className="col-span-5 bg-black-700 rounded-lg shadow-lg flex justify-center items-center">
-          <div style={{ width: 150, height: 150 }}>
-            <CircularProgressbar
-              value={percentage}
-              text={`${percentage.toFixed(0)}%`}
-              styles={buildStyles({
-                textColor: "#FFFFFF",
-                pathColor: "#4ADE80",
-                trailColor: "#1F2937",
-                textSize: "16px",
-                strokeLinecap: "round",
-              })}
-            />
-          </div>
+          <ProgressCircle />
         </div>
 
         {/* Easy, Medium, Hard stats */}

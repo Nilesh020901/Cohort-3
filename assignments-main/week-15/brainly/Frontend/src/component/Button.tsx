@@ -4,9 +4,6 @@ interface ButtonProps {
     variant: "primary" | "secondary";
     text: string;
     startIcon?: ReactElement;
-    onClick?: () => void;
-    fullWidth?: boolean;
-    loading?: boolean;
 }
 
 const variantClasses = {
@@ -20,14 +17,10 @@ export function Button({
     variant,
     text,
     startIcon,
-    onClick,
-    fullWidth = false,
-    loading = false,
 }: ButtonProps) {
     return(
-        <button onClick={onclick}
-                className={`${variantClasses[variant]} ${defaultStyles} ${fullWidth ? "w-full flex justify-center items-center" : "" } ${loading ? "opacity-45" : ""}`}>
-                    
-                </button>
+        <button className={`${variantClasses[variant]} ${defaultStyles}`}>
+            <div>{ startIcon }</div> { text }
+        </button>
     )
 }

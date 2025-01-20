@@ -7,10 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        'white': {
-          100: '#FAF8FF',
-          200: '#F9FBFC',
-        },
+        // 'white': {
+        //   100: '#FAF8FF',
+        //   200: '#F9FBFC',
+        // },
         'purple': {
           300: '#463EBC',
           400: '#463AC5',

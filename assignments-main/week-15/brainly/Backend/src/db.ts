@@ -24,12 +24,9 @@ const TagModel = mongoose.model<ITag>("Tag", tagSchema);
 
 const contentTypes = [
     "image", 
-    "video", 
-    "article", 
+    "video",  
     "audio", 
-    "document", 
-    "presentation", 
-    "spreadsheet", 
+    "document",
     "code-snippet", 
     "ebook", 
     "podcast", 

@@ -1,7 +1,7 @@
 import './App.css'
 import { Button } from './component/Button'
-import { PlusIcon } from './icons/Plus'
-import { ShareIcon } from './icons/Share'
+import { PlusIcon } from './icons/PlusIcon'
+import { ShareIcon } from './icons/ShareIcon'
 
 function App() {
  

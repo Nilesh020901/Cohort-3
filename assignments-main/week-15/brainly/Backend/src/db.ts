@@ -23,14 +23,14 @@ const tagSchema: Schema = new mongoose.Schema({
 const TagModel = mongoose.model<ITag>("Tag", tagSchema);
 
 const contentTypes = [
+    "tweeter",
+    "youtube",
     "image", 
-    "video",  
-    "audio", 
     "document",
     "code-snippet", 
     "ebook", 
     "podcast", 
-    "webpage"
+    "link"
   ]; // Extended content types  
 
 interface IContent extends Document {

@@ -7,11 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 'white': {
-        //   100: '#FAF8FF',
-        //   200: '#F9FBFC',
-        // },
+        'white': {
+          500: '#FFFFFF',
+        },
         'purple': {
+          100: '#6267F5',
+          200: '#EFF1FE',
           300: '#463EBC',
           400: '#463AC5',
           500: '#E0E7FF',

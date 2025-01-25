@@ -9,21 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const pg_1 = require("pg");
-const pgClient = new pg_1.Client("postgresql://neondb_owner:npg_IgksXPbn8G6v@ep-shrill-salad-a5vzujv0-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require");
-function main() {
+const client_1 = require("@prisma/client");
+const client = new client_1.PrismaClient();
+function createUser() {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield pgClient.connect();
-            const response = yield pgClient.query("UPDATE users SET username='Nilesh' WHERE id=2");
-            console.log(response.rows); // `.rows` contains the result
-        }
-        catch (error) {
-            console.error("Error executing query:", error);
-        }
-        finally {
-            yield pgClient.end(); // Always close the connection after usage
-        }
+        yield client.user.create({
+            data: {
+                username: "Nilesh",
+                password: "09",
+                age: 24,
+                city: "Mumbai"
+            }
+        });
     });
 }
-main();
+createUser();

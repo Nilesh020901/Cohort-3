@@ -4,19 +4,26 @@ const { z } = require("zod");
 const { User } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
+const { authMiddlewale } = require("../middleware");
 
 const router = express.Router();
 
 const signupBody = z.object({
 	username: z.string().email(),
 	password: z.string().min(6, { message: "minmum 6 letters hone chaiye hai" }),
-	firstName: z.string().min(3, { message: "minmum 3 letters hone chaiye hai"}),
-	lastName: z.string().min(3, { message: "minmum 3 letters hone chaiye hai"}),
+	firstName: z.string().min(3, { message: "minmum 3 letters hone chaiye hai" }),
+	lastName: z.string().min(3, { message: "minmum 3 letters hone chaiye hai" }),
 });
 
 const signinBody = z.object({
 	username: z.string().email(),
 	password: z.string.min(6, { message: "minmum 6 letters hone chaiye hai" }),
+});
+
+const updateBody = z.object({
+	password: z.string().optional().min(6, { message: "minmum 6 letters hone chaiye hai" }),
+	firstName: z.string().optional().min(3, { message: "minmum 3 letters hone chaiye hai" }),
+	lastName: z.string().min(3, { message: "minmum 3 letters hone chaiye hai" }),
 });
 
 // Signup route
@@ -41,11 +48,11 @@ router.post("/signup", async (req, res) => {
 			lastName: req.body.lastName,
 		});
 
-		const token = jwt.sign({ userId: user._id}, JWT_SECRET, {expiresIn: "2d" });
+		const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "2d" });
 
 		res.status(201).json({ message: "You are Signed up" });
-	} catch(error) {
-		res.status(500).json({ message: "Internal Server Error"});
+	} catch (error) {
+		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
 
@@ -53,28 +60,42 @@ router.post("/signup", async (req, res) => {
 router.post("/signin", async (req, res) => {
 	try {
 		const { success } = signinBody.safeParse(req.body);
-		if(!success) {
+		if (!success) {
 			return res.status(400).json({ message: "Invalid Input Format" });
 		}
 
 		const user = await User.findOne({ username: req.body.username });
 
 		if (!user) {
-            return res.status(401).json({ message: "Invalid credentials" });
-        }
+			return res.status(401).json({ message: "Invalid credentials" });
+		}
 
-        const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: "Invalid Password" });
-        }
+		const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+		if (!isPasswordValid) {
+			return res.status(401).json({ message: "Invalid Password" });
+		}
 
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "2d" });
+		const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "2d" });
 
-        res.status(201).json({ message: "Login successfully", token });
-	} catch(error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
+		res.status(201).json({ message: "Login successfully", token });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Internal Server Error" });
+	}
 });
+
+router.put("/", authMiddlewale, async (req, res) => {
+	try {
+		const { success } = updateBody.safeParse(req.body);
+		if (!success) {
+			res.status(403).json({ message: "Error while updating the password" });
+		}
+
+		await User.updateOne({ _id: req.userId }, req.body);
+		res.status(201).json({ message: "User updated successfully" })
+	} catch (error) {
+		res.status(500).json({ message: "Internal Server Error" });
+	}
+})
 
 module.exports = router;

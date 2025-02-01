@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 mongoose.connect("");
 
-const usserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         require: true,
@@ -29,10 +29,24 @@ const usserSchema = new mongoose.Schema({
         trim: true,
         maxLength: 30,
     },
+});
+
+const accountSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        require: true
+    },
+    balance: {
+        type: Number,
+        require: true
+    }
 })
 
-const User = mongoose.model("User", usserSchema);
+const Account = mongoose.model("Account", accountSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = {
     User,
+    Account,
 }

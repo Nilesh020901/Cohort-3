@@ -30,28 +30,58 @@ app.post("/signup", async (req, res) => {
     } catch (error) {
         res.status(404).json({ message: "User already exists"});
     }
-})
+});
 
 app.post("/signin", async (req, res) => {
     const parsedData = SigninSchema.safeParse(req.body);
-    if(!parsedData) {
+    if(!parsedData.success) {
         res.status(404).json({ message: "Invalid Inputs" });
         return;
     }
 
-    
+    const user = await prismaClient.user.findFirst({
+        where: {
+            email: parsedData.data?.username,
+            password: parsedData.data?.password
+        }
+    })
 
-    const userId = 1;
-    const token = jwt.sign({ userId }, JWT_SECRET);
+    if (!user) {
+        res.status(404).json({ message: "User doesn't exists" });
+        return;
+    }
+    const token = jwt.sign({ userId: user?.id }, JWT_SECRET);
     res.json({ token })
 })
 
 app.post("/room", middleware, async (req, res) => {
-    const data = RoomSchema.safeParse(req.body);
-    if(!data) {
+    const parsedData = RoomSchema.safeParse(req.body);
+    if(!parsedData.success) {
         res.status(404).json({ message: "Invalid Inputs" });
         return;
     }
+
+    //@ts-ignore To fix it
+    const userId = req.userId;
+    try {
+        const room = await prismaClient.room.create({
+            data: {
+                slug: parsedData.data.name,
+                adminId: userId
+            }
+        })
+        
+        res.status(201).json({
+            roomId: room.id
+        })
+    } catch (error) {
+        res.status(411).json({
+            message: "Room already exists"
+        })
+    }
 })
 
-app.listen(3001);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});

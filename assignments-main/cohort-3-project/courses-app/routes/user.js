@@ -3,7 +3,7 @@ const userRouter = Router();
 const jwt = require("jsonwebtoken");
 const { z } = require("zod");
 const brcypt = require("brcypt");
-const { userModel } = require("../../../week-8/course-selling-app/db");
+const { userModel, purchaseModel } = require("../../../week-8/course-selling-app/db");
 const { JWT_USER_PASSWORD } = require("../../../week-8/course-selling-app/config");
 const { userMiddleware } = require("../../../week-8/course-selling-app/middleware/user");
 
@@ -70,8 +70,31 @@ userRouter.post("/signin", async (req, res) => {
 
 userRouter.get("/purchase", userMiddleware, async (req, res) => {
     try {
+        const userId = req.userId;
+        if (!userId) {
+            return res.status(403).json({
+                message: "User not found",
+            })
+        }
+
+        const course = req.body.course;
+        if (!course) {
+            return res.status(403).json({
+                message: "Course not found",
+            })
+        }
+
+        const purchase = await purchaseModel.findOne({userId});
+        const purchasedCourseId = purchase.map((purchase) => purchase.courseId);
+
+        const coursesData = await courseModel.find({
+            _id: {$in: purchasedCourseId},
+        });
+
         res.json({
             message: "Purchase successfull",
+            purchase,
+            courses: coursesData,
         })
     } catch (error) {
         res.status(500).json({

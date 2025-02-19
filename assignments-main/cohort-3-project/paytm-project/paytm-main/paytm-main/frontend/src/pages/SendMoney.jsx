@@ -1,6 +1,7 @@
 export const SendMoney = () => {
-    return 
-    <div>
+    return (
+        <div>
         
-    </div>
+        </div>
+    );
 }

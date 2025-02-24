@@ -1,5 +1,4 @@
 import React from 'react';
-import './index.css';
 import {
   Pencil,
   Share2,
@@ -64,9 +63,9 @@ function App() {
 
       {/* Preview Image */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 mb-20">
-        <div className="rounded-3xl shadow-2xl overflow-hidden border-8 border-white bg-white">
+        <div className="rounded-3xl shadow-2xl overflow-hidden border-8 border-white">
           <img 
-            src="https://images.unsplash.com/photo-1629904853716-f0bc54eea481?auto=format&fit=crop&w=2000&q=80" 
+            src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=2000&q=80" 
             alt="Excalidraw Interface"
             className="w-full object-cover"
           />

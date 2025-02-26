@@ -1,4 +1,7 @@
+"use client";
+
 import React from 'react';
+import { Button } from '@repo/ui/button';
 import {
   Pencil,
   Share2,
@@ -44,18 +47,17 @@ function App() {
               <span className="block text-indigo-600">Hand-Drawn Diagrams</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10 font-jakarta">
-              The free, open-source drawing tool that lets you create amazing diagrams, wireframes, 
+              The free, open-source drawing tool that lets you create amazing diagrams, wireframes,
               and illustrations with the feel of hand-drawn sketches. ✨
             </p>
             <div className="flex gap-4 justify-center">
-              <button className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-fredoka text-lg
-                hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-lg hover:shadow-xl cursor-pointer">
+              <Button variant="primary" onClick={() => alert("Sign Up Clicked")}>
                 Sign Up <UserPlus className="h-5 w-5" />
-              </button>
-              <button className="px-8 py-4 bg-white text-gray-700 rounded-2xl font-fredoka text-lg
-                border-2 border-gray-200 hover:border-gray-300 transition-colors flex items-center gap-2 shadow-lg hover:shadow-xl cursor-pointer">
-                Sign-in <LogIn className="h-5 w-5" />
-              </button>
+              </Button>
+
+              <Button variant="outline" onClick={() => alert("Sign In Clicked")}>
+                Sign In <LogIn className="h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
@@ -64,8 +66,8 @@ function App() {
       {/* Preview Image */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 mb-20">
         <div className="rounded-3xl shadow-2xl overflow-hidden border-8 border-white">
-          <img 
-            src="https://lh6.googleusercontent.com/jDMuhS1pYy1vzAY7v9XXnufGMBu5MOXgqav31UfUSKpazfU_9RtngyZ_fuVa953rFrrnA6J7jH6TzBBlTg8wuNLFxshLXjw9O0rQXZ6A5SwZbSXP1lMORG2g7lzqD3P7a6ZU6Fk" 
+          <img
+            src="https://lh6.googleusercontent.com/jDMuhS1pYy1vzAY7v9XXnufGMBu5MOXgqav31UfUSKpazfU_9RtngyZ_fuVa953rFrrnA6J7jH6TzBBlTg8wuNLFxshLXjw9O0rQXZ6A5SwZbSXP1lMORG2g7lzqD3P7a6ZU6Fk"
             alt="Excalidraw Interface"
             className="w-full object-cover"
           />
@@ -77,32 +79,32 @@ function App() {
         <h2 className="text-4xl font-marker text-center mb-4 text-indigo-900">Why Choose Excalidraw?</h2>
         <p className="text-xl text-gray-600 text-center mb-12 font-fredoka">Everything you need to bring your ideas to life</p>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <FeatureCard 
+          <FeatureCard
             icon={Pencil}
             title="Natural Drawing"
             description="Create sketches that look hand-drawn with our intuitive drawing tools and natural feel."
           />
-          <FeatureCard 
+          <FeatureCard
             icon={Share2}
             title="Easy Sharing"
             description="Share your drawings instantly with a simple link or export them in various formats."
           />
-          <FeatureCard 
+          <FeatureCard
             icon={Users}
             title="Real-time Collaboration"
             description="Work together with your team in real-time, no matter where they are."
           />
-          <FeatureCard 
+          <FeatureCard
             icon={Layers}
             title="Rich Libraries"
             description="Access a vast collection of ready-to-use components and templates."
           />
-          <FeatureCard 
+          <FeatureCard
             icon={Cloud}
             title="Cloud Storage"
             description="Your drawings are automatically saved and accessible from anywhere."
           />
-          <FeatureCard 
+          <FeatureCard
             icon={Sparkles}
             title="Custom Styling"
             description="Personalize your diagrams with custom colors, fonts, and styles."

@@ -1,7 +1,9 @@
 "use client";
 
 import React from 'react';
+import "./globals.css";
 import { Button } from '@repo/ui/button';
+import Link from 'next/link';
 import {
   Pencil,
   Share2,
@@ -51,13 +53,16 @@ function App() {
               and illustrations with the feel of hand-drawn sketches. ✨
             </p>
             <div className="flex gap-4 justify-center">
-              <Button variant="primary" onClick={() => alert("Sign Up Clicked")}>
-                Sign Up <UserPlus className="h-5 w-5" />
-              </Button>
-
-              <Button variant="outline" onClick={() => alert("Sign In Clicked")}>
-                Sign In <LogIn className="h-5 w-5" />
-              </Button>
+              <Link href="/signup">
+                <Button variant="primary" onClick={() => alert("Sign Up Clicked")}>
+                  Sign Up <UserPlus className="h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="signin">
+                <Button variant="outline" onClick={() => alert("Sign In Clicked")}>
+                  Sign In <LogIn className="h-5 w-5" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

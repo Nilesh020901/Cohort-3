@@ -3,7 +3,7 @@ import axios from "axios";
 import { AuthLayout } from "../components/AuthPage"
 
 const signup = () => {
-    const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+    // const [formData, setFormData] = useState({ name: "", email: "", password: "" });
     return (
         <AuthLayout title="Create an account">
             <form className="space-y-4">

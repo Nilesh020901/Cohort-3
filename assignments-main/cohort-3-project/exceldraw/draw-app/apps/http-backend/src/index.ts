@@ -13,6 +13,8 @@ app.use(cors())
 app.post("/signup", async (req, res) => {
     
     const parsedData = CreateUserSchema.safeParse(req.body);
+    console.log("Received signup request:", req.body);
+
     if(!parsedData.success) {
         res.status(404).json({ message: "Invalid Inputs" });
         return;
@@ -28,8 +30,11 @@ app.post("/signup", async (req, res) => {
         
         res.status(201).json({ 
             userId: user.id,
-            message: "You are Signed-up"});
+            message: "You are Signed-up"
+        });
+        console.log("User created successfully:", user);   
     } catch (error) {
+        console.error("Error creating user:", error);
         res.status(404).json({ message: "User already exists"});
     }
 });

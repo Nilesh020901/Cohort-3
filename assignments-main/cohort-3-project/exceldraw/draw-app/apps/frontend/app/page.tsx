@@ -72,7 +72,7 @@ function App() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 mb-20">
         <div className="rounded-3xl shadow-2xl overflow-hidden border-8 border-white">
           <img
-            src="https://lh6.googleusercontent.com/jDMuhS1pYy1vzAY7v9XXnufGMBu5MOXgqav31UfUSKpazfU_9RtngyZ_fuVa953rFrrnA6J7jH6TzBBlTg8wuNLFxshLXjw9O0rQXZ6A5SwZbSXP1lMORG2g7lzqD3P7a6ZU6Fk"
+            src="https://limnu.com/wp-content/uploads/2018/11/Limnu-EngineersHomePage-1.jpg"
             alt="Excalidraw Interface"
             className="w-full object-cover"
           />

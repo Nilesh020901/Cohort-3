@@ -54,12 +54,12 @@ function App() {
             </p>
             <div className="flex gap-4 justify-center">
               <Link href="/signup">
-                <Button variant="primary" onClick={() => alert("Sign Up Clicked")}>
+                <Button variant="primary">
                   Sign Up <UserPlus className="h-5 w-5" />
                 </Button>
               </Link>
               <Link href="signin">
-                <Button variant="outline" onClick={() => alert("Sign In Clicked")}>
+                <Button variant="outline">
                   Sign In <LogIn className="h-5 w-5" />
                 </Button>
               </Link>

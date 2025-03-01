@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { AuthLayout } from "../components/AuthPage"
 
-const signup = () => {
+const Signup = () => {
     const [formData, setFormData] = useState({ name: "", email: "", password: "" });
     const [message, setMessage] = useState("");
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -29,7 +30,7 @@ const signup = () => {
     }
     return (
         <AuthLayout title="Create an account">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
                 {["name", "email", "password"].map((feild, idx) => (
                     <input
                         key={idx}
@@ -49,4 +50,4 @@ const signup = () => {
     );
 };
 
-export default signup;
+export default Signup;

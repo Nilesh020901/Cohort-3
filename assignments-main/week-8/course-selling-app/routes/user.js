@@ -17,7 +17,7 @@ const signupSchema = z.object({
 
 const signinSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(1, { message: "atleast 1 letter" }),
+    password: z.string().min(6, { message: "atleast 6 letter" }),
 });
 
 userRouter.post("/signup", async function (req, res) {

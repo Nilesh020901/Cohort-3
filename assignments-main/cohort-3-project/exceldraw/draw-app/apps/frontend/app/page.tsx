@@ -37,7 +37,7 @@ function App() {
     <div className="min-h-screen bg-gray-50 font-jakarta">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-10 pointer-events-none"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="pt-20 pb-24 text-center">
             <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md mb-8">
@@ -72,7 +72,7 @@ function App() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 mb-20">
         <div className="rounded-3xl shadow-2xl overflow-hidden border-8 border-white">
           <img
-            src="https://limnu.com/wp-content/uploads/2018/11/Limnu-EngineersHomePage-1.jpg"
+            src="https://accord.coop/img/ill1_dark_5cbbedccad/ill1_dark_5cbbedccad.svg"
             alt="Excalidraw Interface"
             className="w-full object-cover"
           />

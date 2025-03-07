@@ -3,12 +3,14 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const { router } = require('./routes/auth');
 const userRouter = require('./routes/user');
+const taskRouter = require('./routes/task');
 dotenv.config();
 const app = express();
 app.use(express.json());
 
 app.use('/api/v1/auth', router);
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/task', taskRouter);
 
 async function main() {
     await mongoose.connect(process.env.MONGO_URL);

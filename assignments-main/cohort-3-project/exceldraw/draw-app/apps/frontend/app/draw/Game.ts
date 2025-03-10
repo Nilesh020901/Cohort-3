@@ -66,6 +66,98 @@ export function Game {
     initHandlers() {
         this.socket.onmessage = (event) => {
             const message = JSON.parse(event.data);
+
+            if (message.type === "chat") {
+                const parsedShape = JSON.parse(message.message);
+                this.existingShapes.push(parsedShape.shape);
+                this.clearCanvas();
+            }
         }
+    }
+
+    clearCanvas() {
+        this.ctx.clearReact(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = "rgba(0, 0, 0)"
+        this.ctx.fillReact(0, 0, this.canvas.width, this.canvas.height);
+        this.existingShapes.map((shape) => {
+            if (shape.type === "react") {
+                this.ctx.strokeStyle = "rgba(255, 255, 255)";
+                this.ctx.strokeReact(shape.x, shape.y, shape.width, shape.height);
+            } else if (shape.type === "circle") {
+                this.ctx.beginPath();
+                this.ctx.arc(shape.centerX, shape.centerY, shape.radius, 0, 2 * Math.PI);
+                this.ctx.stroke();
+                this.ctx.closePath();
+            }
+        })
+    }
+
+    mouseDownHandler = (e) => {
+        this.clicked = true;
+        this.startX = e.clientX;
+        this.startY = e.clientY;
+    }
+
+    mouseUpHandler = (e) => {
+        this.clicked = false;
+        const width = e.clientX - this.startX;
+        const height = e.clientY - this.startY;
+        const selectedTool = this.selectedTool;
+        let shape: Shape | null = null;
+        if (selectedTool === "react") {
+            shape = {
+                type: "react",
+                x: this.startX,
+                y: this.startY,
+                width,
+                height
+            }
+        } else if (selectedTool === "circle") {
+            //please implement the circle drawing logic here
+            const radius = Math.sqrt(width ** 2 + height ** 2);
+            shape = {
+                type: "circle",
+                centerX: this.startX,
+                centerY: this.startY,
+                radius
+            }
+        }
+
+        if (shape) {
+            return;
+        }
+
+        this.existingShapes.push(shape);
+        this.socket.send(JSON.stringify({
+            type: "chat",
+            message: JSON.stringify({ shape }),
+            roomId: this.roomId
+        }))
+    }
+
+    mouseMoveHandler = (e) => {
+        if (this.clicked) {
+            const width = e.clientX - this.startX;
+            const height = e.clientY - this.startY;
+            this.clearCanvas();
+            this.ctx.strokeStyle = "rgba(255, 255, 255)";
+            const selectedTool = this.selectedTool;
+            if (selectedTool === "react") {
+                this.ctx.strokeReact(this.startX, this.startY, width, height);
+            }
+            else if (selectedTool === "circle") {             
+                const radius = Math.sqrt(width ** 2 + height ** 2);
+                this.ctx.beginPath();
+                this.ctx.arc(this.startX, this.startY, radius, 0, 2 * Math.PI);
+                this.ctx.stroke();
+                this.ctx.closePath();
+            }
+        }
+    }
+
+    initmouseHandlers() {
+        this.canvas.addEventListener("mousedown", this.mouseDownHandler);
+        this.canvas.addEventListener("mouseup", this.mouseUpHandler);
+        this.canvas.addEventListener("mousemove", this.mouseMoveHandler);
     }
 }

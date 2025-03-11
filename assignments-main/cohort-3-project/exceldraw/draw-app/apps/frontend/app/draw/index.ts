@@ -1,5 +1,7 @@
 import { HTTP_BACKEND_URL } from "@/config";
 import axios from "axios";
+import { getExistingShapes } from "./http";
+import { clear } from "console";
 
 type Shape = {
     type: "rect",
@@ -18,5 +20,71 @@ type Shape = {
 }
 
 export async function initDraw(canvas: HTMLCanvasElement, roomId: string, socket: WebSocket) {
+    const ctx = canvas.getContext("2d");
+    let existingShapes: Shape[] = await getExistingShapes(roomId);
+
+    if(!ctx) {
+        return;
+    }
+
+    socket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+
+        if(message.type == "chat") {
+            const parsedShape = JSON.parse(message.message);
+            existingShapes.push(parsedShape.Shape);
+            clearCanvas(existingShapes, canvas, ctx);
+        }
+    }
+
+    clearCanvas(existingShapes, canvas, ctx);
+    let clicked = true;
+    let startX = 0;
+    let startY = 0;
+
+    canvas.addEventListener("mousedown", (e) => {
+        clicked = true;
+        startX = e.clientX;
+        startY = e.clientY;
+    })
+
+    canvas.addEventListener("mousemove", (e) => {
+        clicked = false;
+        const width = e.clientX - startX;
+        const height = e.clientY - startY;
+
+        // @ts-ignore
+        const selectedTool = window.selectedTool;
+        let shape: Shape | null = null;
+        if(selectedTool == "rect") {
+            shape = {
+                type: "rect",
+                x: startX,
+                y: startY,
+                width,
+                height
+            }
+        } else if(selectedTool == "circle") {
+            const radius = Math.max(width, height) / 2;
+            shape = {
+                type: "circle",
+                radius: radius,
+                centerX: startX + radius,
+                centerY: startY + radius
+            }
+        }
+
+        if(!shape) {
+            return;
+        }
+
+        existingShapes.push(shape);
+        socket.send(JSON.stringify({
+            type: "chat",
+            message: JSON.stringify({ shape }),
+            roomId
+        }))
+    })
+
     
 }

@@ -1,18 +1,17 @@
-import express from "express";
-import dotenv from "dotenv";
-import userRoutes from "./routes/userRoutes";
-import blogRoutes from "./routes/blogRoutes";
-
-dotenv.config();
+import express from 'express';
+import userRouter from './routes/user';
+import blogRouter from './routes/blog';
 
 const app = express();
-app.use(express.json()); //Middleware json ko parse karega
+app.use(express.json());
 
-// Routes jo hum use kar rahe hai
-app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/user", blogRoutes);
+//user routes
+app.use('/user', userRouter);
 
-const PORT = process.env.port || 3000;
+//blog routes
+app.use('/blog', blogRouter);
+
+const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });

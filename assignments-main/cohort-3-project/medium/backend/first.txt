@@ -1,0 +1,331 @@
+Since you're replacing Cloudflare Workers with Express, you'll need to initialize the backend differently. Here’s how to do it:
+
+Step 1: Create the Project Folder
+sh
+Copy
+Edit
+mkdir medium
+cd medium
+Step 2: Initialize an Express App
+Instead of using npm create hono@latest, we manually set up an Express-based backend.
+
+Run the following command:
+sh
+Copy
+Edit
+mkdir backend
+cd backend
+npm init -y
+This initializes a package.json file.
+
+Step 3: Install Dependencies
+Since we’re using Express, install the required packages:
+
+sh
+Copy
+Edit
+npm install express dotenv
+npm install -D typescript ts-node @types/node @types/express
+Package	Purpose
+express	Backend framework
+dotenv	Loads environment variables
+typescript	Enables TypeScript support
+ts-node	Runs TypeScript files
+@types/node	TypeScript definitions for Node.js
+@types/express	TypeScript definitions for Express
+Step 4: Configure TypeScript
+Create a tsconfig.json file inside backend/:
+
+json
+Copy
+Edit
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true
+  }
+}
+Step 5: Create the Express Server
+Create a folder src/ inside backend/:
+sh
+Copy
+Edit
+mkdir src
+Inside src/, create a file server.ts and add:
+ts
+Copy
+Edit
+import express from "express";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const app = express();
+app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Welcome to Medium Clone API!");
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+Step 6: Run the Server
+Modify package.json scripts:
+
+json
+Copy
+Edit
+"scripts": {
+  "dev": "ts-node src/server.ts"
+}
+Then, start the server:
+
+sh
+Copy
+Edit
+npm run dev
+===================================================
+
+1️⃣ Update File Structure
+Your backend will now look like this:
+
+bash
+Copy
+Edit
+medium/
+│── backend/
+│   │── src/
+│   │   │── routes/
+│   │   │   │── userRoutes.ts  # Handles user authentication routes
+│   │   │   │── blogRoutes.ts  # Handles blog-related routes
+│   │   │── server.ts          # Main Express app
+│   │── .env
+│   │── package.json
+│   │── tsconfig.json
+2️⃣ Create Route Files
+📌 Create src/routes/userRoutes.ts
+Handles user signup & signin:
+
+ts
+Copy
+Edit
+import express from "express";
+
+const router = express.Router();
+
+router.post("/signup", (req, res) => {
+  res.send("Signup route");
+});
+
+router.post("/signin", (req, res) => {
+  res.send("Signin route");
+});
+
+export default router;
+📌 Create src/routes/blogRoutes.ts
+Handles blog operations:
+
+ts
+Copy
+Edit
+import express from "express";
+
+const router = express.Router();
+
+router.post("/", (req, res) => {
+  res.send("Create blog route");
+});
+
+router.put("/", (req, res) => {
+  res.send("Update blog route");
+});
+
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  res.send(`Get blog with ID: ${id}`);
+});
+
+router.get("/bulk", (req, res) => {
+  res.send("Get all blogs route");
+});
+
+export default router;
+3️⃣ Update server.ts to Use Routes
+Modify src/server.ts to integrate these routes:
+
+ts
+Copy
+Edit
+import express from "express";
+import dotenv from "dotenv";
+import userRoutes from "./routes/userRoutes";
+import blogRoutes from "./routes/blogRoutes";
+
+dotenv.config();
+
+const app = express();
+app.use(express.json()); // Middleware to parse JSON
+
+// Register routes
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/blog", blogRoutes);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+4️⃣ Run the Server
+sh
+Copy
+Edit
+npm run dev
+Now, your Express API is ready with all 6 routes. 🚀
+
+==========================================================
+
+Here's how you can set up Prisma with Express while keeping everything structured properly:
+
+1️⃣ Install Prisma & Initialize It
+Make sure you're inside the backend/ folder:
+
+sh
+Copy
+Edit
+npm install prisma @prisma/client
+npx prisma init
+This will create a .env file and a prisma/ directory.
+
+2️⃣ Configure Environment Variables
+Replace DATABASE_URL in .env:
+
+env
+Copy
+Edit
+DATABASE_URL="postgres://avnadmin:password@host/db"
+Add .env to .gitignore to prevent committing secrets:
+
+sh
+Copy
+Edit
+echo ".env" >> .gitignore
+3️⃣ Define Prisma Schema (prisma/schema.prisma)
+Update the file with the following:
+
+prisma
+Copy
+Edit
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  name     String?
+  password String
+  posts    Post[]
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+}
+4️⃣ Migrate Database
+Run the migration to create tables:
+
+sh
+Copy
+Edit
+npx prisma migrate dev --name init_schema
+If you face issues, try changing your Wi-Fi network.
+
+5️⃣ Generate Prisma Client
+sh
+Copy
+Edit
+npx prisma generate --no-engine
+6️⃣ Install Prisma Accelerate
+sh
+Copy
+Edit
+npm install @prisma/extension-accelerate
+7️⃣ Initialize Prisma in Express
+Create a src/config/prisma.ts file:
+
+ts
+Copy
+Edit
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+export const prisma = new PrismaClient({
+  datasourceUrl: process.env.DATABASE_URL,
+}).$extends(withAccelerate());
+8️⃣ Use Prisma in Express
+Modify src/server.ts to include Prisma:
+
+ts
+Copy
+Edit
+import express from "express";
+import dotenv from "dotenv";
+import { prisma } from "./config/prisma";
+
+dotenv.config();
+
+const app = express();
+app.use(express.json());
+
+app.get("/", async (req, res) => {
+  const users = await prisma.user.findMany();
+  res.json(users);
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+========================================================
+
+Here’s the updated file structure for your Express backend with Prisma:
+
+bash
+Copy
+Edit
+medium/
+│── backend/
+│   │── node_modules/              # Installed dependencies
+│   │── prisma/                     # Prisma schema & migrations
+│   │   │── migrations/              # Migration files
+│   │   │── schema.prisma            # Database schema
+│   │── src/                         # Source code
+│   │   │── config/                   # Config files
+│   │   │   │── prisma.ts              # Prisma client setup
+│   │   │── routes/                   # Route handlers
+│   │   │   │── userRoutes.ts          # User authentication routes
+│   │   │   │── blogRoutes.ts          # Blog-related routes
+│   │   │── server.ts                 # Main Express server
+│   │── .env                          # Environment variables (ignored by Git)
+│   │── .gitignore                    # Ignore .env, node_modules, etc.
+│   │── package.json                   # Project dependencies & scripts
+│   │── tsconfig.json                  # TypeScript configuration
+│   │── package-lock.json               # Lock file for dependencies

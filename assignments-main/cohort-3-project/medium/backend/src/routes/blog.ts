@@ -4,6 +4,18 @@ import { prismaClient } from '../prisma';
 
 const router = Router();
 
+//get all blogs
+router.get("/bulk", async (req, res) => {
+    try {
+        const posts = await prismaClient.post.findMany();
+        res.status(200).json(posts);
+        return;
+    } catch (error) {
+        console.error("Blog Error:", error);
+        res.status(403).json({ error: "Error while fetching blogs" });
+        return;
+    }
+});
 //create a blog
 router.post("/createblog", auth, async (req, res) => {
     const { title, content } = req.body;
@@ -81,18 +93,8 @@ router.get("/:id", auth,  async (req, res) => {
     }});
 
 //get all blogs
-router.get("/bulk", auth, async (req, res) => {
-    try {
-        const posts = await prismaClient.post.findMany();
-        res.status(200).json(posts);
-        return;
-    } catch (error) {
-        console.error("Blog Error:", error);
-        res.status(403).json({ error: "Error while fetching blogs" });
-        return;
-        
-    }
-});
+
+
 
 export default router;
 

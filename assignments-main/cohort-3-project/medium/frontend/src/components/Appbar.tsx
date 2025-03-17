@@ -66,7 +66,7 @@ export default function Appbar({ write = true }: { write: boolean }) {
                             </div>
                         ) : (
                             <div className="dropdown-content" ref={dropdownRef}>
-                                <div onClick={() => {setHover(!hover)}}
+                                <div onClick={() => { setHover(!hover) }}
                                     className="flex items-center gap-3">
                                     <Avatar name={userDetails.name} size="big" />
                                     <div className="flex justify-center gap-1 cursor-pointer">

@@ -12,6 +12,8 @@
   "dependencies": {
     "@types/axios": "^0.9.36",
     "axios": "^1.8.3",
+    "dompurify": "^3.2.4",
+    "marked": "^15.0.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0",
@@ -19,6 +21,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/dompurify": "^3.0.5",
+    "@types/marked": "^5.0.2",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",

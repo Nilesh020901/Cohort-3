@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Avataar from 'Avataar';
+import Avatar from 'Avataar';
 import ShareBtn from './ShareBtn';
 import Preview from './Preview';
 import EditBtn from './EditBtn';

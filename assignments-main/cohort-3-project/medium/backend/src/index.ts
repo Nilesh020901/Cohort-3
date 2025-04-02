@@ -1,23 +1,17 @@
-import express from 'express';
+import express from "express";
+import userRouter from "./routes/user";
+import blogRouter from "./routes/blog";
 import cors from "cors";
-import userRouter from './routes/user';
-import blogRouter from './routes/blog';
+
+type Bindings = {
+    Database_URL: string;
+    JWT_SECRET: string;
+};
 
 const app = express();
-
-//middleware
 app.use(cors());
-app.use(express.json());
 
-//routes
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/blog", blogRouter);
 
-//user routes
-app.use('/user', userRouter);
-
-//blog routes
-app.use('/blog', blogRouter);
-
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+export default app;

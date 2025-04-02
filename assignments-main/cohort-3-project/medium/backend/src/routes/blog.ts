@@ -1,100 +1,153 @@
-import { Router } from 'express';
-import { auth } from '../middleware/auth';
-import { prismaClient } from '../prisma';
+import express from "express";
+import { PrismaClient } from "@prisma/client";
+import { withAccelerate } from "@prisma/extension-accelerate";
+import authMiddleware from "../authMiddleware";
+//import from zod and install moment-timezone
+import * as moment from "moment-timezone";
 
-const router = Router();
+const router = express.Router();
+router.use(authMiddleware);
+const prisma = new PrismaClient().$extends(withAccelerate());
 
-//get all blogs
-router.get("/bulk", async (req, res) => {
+router.post("/", async (req, res) => {
+    const body = req.body;
+    const { success } = blogCreateInput.safeParse(body);
+    if (!success) {
+        res.status(400).json({ error: "Invalid input" });
+        return;
+    }
+
     try {
-        const posts = await prismaClient.post.findMany();
-        res.status(200).json(posts);
-        return;
+        const indianTime = moment.tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss");
+        const blog = await prisma.post.create({
+            data: {
+                title: body.title,
+                content: body.content,
+                authorId: body.authorId,
+                postedOn:  indianTime,
+                published: body.published,
+            },
+        });
+        res.status(201).json({ message: "Blog created successfully" + blog.id });
     } catch (error) {
-        console.error("Blog Error:", error);
-        res.status(403).json({ error: "Error while fetching blogs" });
-        return;
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+        
     }
 });
-//create a blog
-router.post("/createblog", auth, async (req, res) => {
-    const { title, content } = req.body;
-    console.log(title, content);
-    const userId = req.userId as string;
 
-    if (!title || !content) {
-        res.status(400).json({ error: "Please provide title and content" });
+router.put("/", async (req, res) => {
+    const body = req.body;
+    const { success } = blogUpdateInput.safeParse(body);
+    if (!success) {
+        res.status(400).json({ error: "Invalid input" });
         return;
     }
-
     try {
-        const post = await prismaClient.post.create({
+        const blog = await prisma.post.update({
+            where: { id: body.id, authorId: req.userId },
             data: {
-                title,
-                content,
-                authorId: userId,
+                title: body.title,
+                content: body.content,
+                authorId: body.authorId,
+                published: body.published,
             },
         });
-
-        res.status(201).json({ id: post.id });
-        return;
+        res.status(200).json({ message: "Blog updated succesfully" + blog.id });
     } catch (error) {
-        console.error("Blog Error:", error);
-        res.status(403).json({ error: "Error while creating blog" });
-        return;
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
         
-    }});
+    }
+})
 
-//update a blog
-router.put("/updateblog", auth, async (req, res) => {
-    const userId = req.userId as string;
-    const { id, title, content } = req.body;
-
+router.get("/bulk", async (req, res) => {
     try {
-        const updatedPost = await prismaClient.post.update({
-            where: {
-                id: id,
-                authorId: userId,
-            },
-            data: {
-                title: title,
-                content: content,
+        const blogs = await prisma.post.findMany({
+            where: { published: true },
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                authorId: true,
+                postedOn: true,
+                published: true,
+                author: {
+                    select: {
+                        name: true,
+                    }
+                }
             }
         });
-
-        res.status(200).json({ message: "Blog updated successfully", post: updatedPost });
-        return;
+        res.status(200).json({ blogs });
     } catch (error) {
-        console.error("Blog Error:", error);
-        res.status(403).json({ error: "Error while updating blog" });
-        return;
-    }});
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+})
 
-//get a single blog
-router.get("/:id", auth,  async (req, res) => {
-    const { id } = req.params;
-
+router.get("/both", async (req, res) => {
     try {
-        const post = await prismaClient.post.findUnique({
-            where: { id },
+        const user = await prisma.user.findUnique({
+            where: { id: req.userId },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                posts: true,
+            }
         });
+        res.status(200).json({ user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+        
+    }
+})
 
-        if (!post) {
+router.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const blog = await prisma.post.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                postedOn: true,
+                published: true,
+                authorId: true,
+                author: {
+                    select: {
+                        name:true,
+                    }
+                },
+            }
+        });
+        if (!blog) {
             res.status(404).json({ error: "Blog not found" });
             return;
         }
-
-        res.status(200).json(post);
-        return;
+        res.status(200).json({ blog });
     } catch (error) {
-        console.error("Blog Error:", error);
-        res.status(403).json({ error: "Error while fetching blog" });
-        return;
-    }});
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+})
 
-//get all blogs
+router.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        await prisma.post.delete({
+            where: { id, authorId: req.userId },
+        });
+        res.status(200).json({ message: "Blog deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 
-
+})
 
 export default router;
 

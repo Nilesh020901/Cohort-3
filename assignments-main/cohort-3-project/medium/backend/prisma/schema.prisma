@@ -21,7 +21,7 @@ model Post {
   title     String
   content   String
   publised  Boolean  @default(false)
-  postedOn  String
+  postedOn  DateTime @default(now())
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
 }

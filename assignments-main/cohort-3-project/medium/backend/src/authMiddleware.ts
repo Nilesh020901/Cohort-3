@@ -1,6 +1,14 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
+declare global {
+    namespace Express {
+        interface Request {
+            userId?: string;
+        }
+    }
+}
+
 export default function authMiddleware(req: Request, res: Response, next: NextFunction) {
     const token = req.header("authorization") || "";
 

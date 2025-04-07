@@ -4,43 +4,36 @@
  * Return a promise.all which return the time in milliseconds it takes to complete the entire operation.
  */
 
-function wait1(t) {
-    return new Promise((resolve)=>{
-      setTimeout(()=>{
-        resolve(`First promise resolved after ${t} time`);
-      }, t*1000);
-    });
-  }
-  
-  function wait2(t) {
-    return new Promise((resolve)=>{
-      setTimeout(()=>{
-        resolve(`Second promise resolved after ${t} time`);
-      }, t*1000);
-    });
-  }
-  
-  function wait3(t) {
-    return new Promise((resolve)=>{
-      setTimeout(()=>{
-        resolve(`Third promise resolved after ${t} time`)
-      }, t*1000);
-    });
-  }
-  
-  function calculateTime(t1, t2, t3) {
-    const st = Date.now(); //start time
-  
-    return Promise.all([wait1(t1), wait2(t2), wait3(t3)]).then(()=>{
-      const et = Date.now(); //end time
-      const total = et - st;
-      const totalSec = total / 1000;
-      console.log('All promises resolved');
-      console.log('Total time taken: ' + totalSec + 's');
-      return total;
-    }).catch((error)=>{
-      console.error('One of the promises rejected:', error);
-    });
-  }
+function delay1(t1) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function() {
+      resolve(`Resolved after ${t1} seconds`)
+    }, t1*1000);
+  });
+};
 
-module.exports = calculateTime;
+function delay2(t2) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function() {
+      resolve(`Resolved after ${t2} seconds`)
+    }, t2*1000);
+  });
+};
+
+function delay3(t3) {
+  return new Promise(function (resolve, reject) {
+    return setTimeout(function () {
+      resolve(`Resolved after ${t3} seconds`)
+    }, t3*1000);
+  });
+};
+
+function callback(value) { 
+  console.log(value);
+}
+
+Promise.all([
+  delay1(5),
+  delay2(10),
+  delay3(15),
+]).then(callback);

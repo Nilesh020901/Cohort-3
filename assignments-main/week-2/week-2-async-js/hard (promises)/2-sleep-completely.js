@@ -4,14 +4,19 @@
  * the function should return a promise just like before
  */
 
-function sleep(milliseconds) {
-    return new Promise((resolve)=>{
-      const end = Date.now() + milliseconds;
-      while(Date.now() < end) {
-        //not do any work only busy the thread till end time
-      }
-      resolve();
-    });
-  }
+function sleep(n) {
+  return new Promise(function (resolve, reject) {
+    const start = Date.now();
+    while (Date.now() - start < n) {
+      // Busy wait
+    }
+    resolve(`Slept for ${n} milliseconds`);
+  })
+}
 
-module.exports = sleep;
+
+function callback(value) {
+  console.log(value);
+}
+
+sleep(5000).then(callback);

@@ -29,24 +29,23 @@ function wait1(t) {
     });
   }
   
-  function calculateTime(t1, t2, t3) {
-    const st = Date.now(); //starttime
-  
-    //chain promise call
-    return wait1(t1) //1st fun call 
-    .then(()=>wait2(t2)) //after done then 2nd fun call
-    .then(()=>wait3(t3)) //after done then 3rd fun call
-    .then(()=>{
-      const et = Date.now(); //endtime
-      const total = et - st;
-      const totalSec = total / 1000;
-      console.log('All promises resolved sequentially');
-      console.log('Total time taken: ' + totalSec + 's');
-      return total;
+  function rundelays(t1, t2, t3) {
+    return wait1(t1)
+    .then((result) => {
+      console.log(result);
+      return wait2(t2);
     })
-    .catch((error)=>{
-      console.error('One of the promises rejected:', error);
+    .then((result) => {
+      console.log(result);
+      return wait3(t3);
+    })
+    .then((result) => {
+      console.log(result);
+      console.log(`All promises resolved sequentially`);
+      return;
     })
   }
 
-module.exports = calculateTime;
+  rundelays(5, 10, 7).then(() => {
+    console.log("All done!");
+  });

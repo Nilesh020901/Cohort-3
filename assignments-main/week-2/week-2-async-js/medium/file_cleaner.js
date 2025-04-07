@@ -23,5 +23,5 @@ function cleanFile(filePath) {
   });
  }
 
- const filePath = 'index.txt';
+ const filePath = '../easy/a.txt';
  cleanFile(filePath);

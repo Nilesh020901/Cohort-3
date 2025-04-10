@@ -16,4 +16,4 @@ app.get("/sum/:num", (req, res) => {
     res.send(`The sum of numbers from 0 to ${num} is ${sum}`);
 })
 
-app.listen(3000);
+app.listen(3000); 

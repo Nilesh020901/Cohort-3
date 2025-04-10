@@ -6,11 +6,15 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "todo": "./index.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "commander": "^13.1.0"
+    "commander": "^13.1.0",
+    "express": "^5.1.0"
   }
 }

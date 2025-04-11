@@ -1,25 +1,23 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 
-// Middleware to log request details
-app.use((req, res, next) => {
-  const method = req.method;
+function middleware(req, res, next) {
+  const user = req.query.user;
+  if (!user) {
+    return res.status(401).send("Unauthorized: No user provided");
+  }
+
+  const httpMethod = req.method;
   const url = req.url;
-  const time = new Date().toISOString();
-  console.log(`${method} ${url} ${time}`);
+  const timestamp = new Date().toString();
+  console.log(`Request Method: ${httpMethod}`);
+  console.log(`Request URL: ${url}`);
+  console.log(`Timestamp: ${timestamp}`);
   next();
-});
+}
 
-let reqcount = 0;
+app.use(middleware);
 
-// Middleware to count requests
-app.use((req, res, next) => {
-  reqcount++;
-  console.log(`Request count: ${reqcount}`);
-  next();
-});
-
-// Start the server
 app.listen(3000, () => {
-  console.log('Server listening on port 3000');
+  console.log("Server is running on port 3000");
 });

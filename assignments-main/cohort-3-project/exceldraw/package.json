@@ -1,5 +1,9 @@
 {
   "devDependencies": {
     "create-turbo": "^2.4.0"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
   }
 }

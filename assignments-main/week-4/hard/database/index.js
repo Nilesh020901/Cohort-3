@@ -1,8 +1,15 @@
 const mongoose = require('mongoose');
-
+require("dotenv").config();
 // Connect to MongoDB
-mongoose.connect('your-mongodb-url');
-
+const connectToDatabase = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("Database Connect");
+    } catch (error) {
+        console.log("Database connection failed:", error)
+        process.exit();
+    }
+}
 // Define schemas
 
 const UserSchema = new mongoose.Schema({

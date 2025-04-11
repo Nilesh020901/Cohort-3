@@ -1,8 +1,5 @@
 // You have to create a middleware for rate limiting a users request based on their username passed in the header
 
-const express = require('express');
-const app = express();
-
 // Your task is to create a global middleware (app.use) which will
 // rate limit the requests from a user to only 5 request per second
 // If a user sends more than 5 requests in a single second, the server
@@ -12,54 +9,49 @@ const app = express();
 // clears every one second
 
 // This object will hold the count of requests per user
-let numberOfRequestsForUser = {};
 
 // Store the interval ID so we can clear it in tests
-let resetInterval;
 
 // Middleware to rate limit based on user-id
 
-app.use((req, res, next) => {
-  const userId = req.header('user-id');
+// Initialize user data if not already present
+
+const express = require("express");
+
+const app = express();
+
+
+let numberOfRequestsForUser = {}
+
+const intervals = setInterval(() => {
+  numberOfRequestsForUser = {}
+}, 1000);
+
+const ratelimitmiddleware = (req, res, next) => {
+  const userId = req.header("user-id");
 
   if (!userId) {
-    return res.status(400).json({error: 'User ID is required in headers'});
+    return res.status(404).json({
+      message: "UserId is required"
+    });
   }
 
-  const currentTime = Math.floor(Date.now() / 1000); //Current second timestamp
-
-  // Initialize user data if not already present
   if (!numberOfRequestsForUser[userId]) {
-    numberOfRequestsForUser[userId] = {count: 0, lastRequestTime: currentTime};
+    numberOfRequestsForUser[userId] = 0;
   }
 
-  const userData = numberOfRequestsForUser[userId];
-
-  if (currentTime === userData.lastRequestTime) {
-    userData.count += 1;
-  }
-  else {
-    userData.count = 1;
-    userData.lastRequestTime = currentTime;
+  if (!numberOfRequestsForUser[userId] > 5) {
+    return res.status(404).json({ message: "You tried more than 5 times"});
   }
 
-  if (userData.count > 5) {
-    return res.status(404).json({error: 'User Id hit more 5 times'})
-  }
-
+  numberOfRequestsForUser++;
   next();
-});
+}
 
-resetInterval = setInterval(() => {
-    numberOfRequestsForUser = {};
-}, 1000)
+app.use(ratelimitmiddleware);
 
-app.get('/user', function(req, res) {
-  res.status(200).json({ name: 'john' });
-});
+app.get("/", (req, res) => {
+  res.send('You have access to this data!');
+})
 
-app.post('/user', function(req, res) {
-  res.status(200).json({ msg: 'created dummy user' });
-});
-
-module.exports = app;
+app.listen(3000);

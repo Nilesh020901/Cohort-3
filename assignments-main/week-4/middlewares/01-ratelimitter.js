@@ -15,7 +15,6 @@ const app = express();
 let numberOfRequestsForUser = {};
 
 // Store the interval ID so we can clear it in tests
-let resetInterval;
 
 // Middleware to rate limit based on user-id
 
@@ -50,9 +49,6 @@ app.use((req, res, next) => {
   next();
 });
 
-resetInterval = setInterval(() => {
-    numberOfRequestsForUser = {};
-}, 1000)
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });

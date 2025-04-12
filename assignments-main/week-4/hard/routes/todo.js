@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const adminMiddleware = require("../middleware/user");
+const { userMiddleware } = require("../middleware/user");
 const router = Router();
 let todos = []; // Temporary in-memory storage
 let idCounter = 1; // Simple counter for unique IDs
@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
     res.status(201).json(newTodo);
 });
 
-router.put('/', adminMiddleware, (req, res) => {
+router.put('/', userMiddleware, (req, res) => {
     // Implement update todo  logic
     const { id } = req.params;
     const { text, completed } = req.body;
@@ -39,13 +39,13 @@ router.put('/', adminMiddleware, (req, res) => {
     res.json(todo);
 });
 
-router.delete('/', adminMiddleware, (req, res) => {
-    // Implement delete todo logic
+router.delete('/', userMiddleware, (req, res) => {
+    // Implement delete all todo logic
     todos = [];
     res.json({ message: "All todos deleted" });
 });
 
-router.delete('/:id', adminMiddleware, (req, res) => {
+router.delete('/:id', userMiddleware, (req, res) => {
     // Implement delete todo by id logic
     const { id } = req.params;
     const todoIndex = todos.findIndex((t)=>t.id === parseInt(id));
@@ -59,12 +59,12 @@ router.delete('/:id', adminMiddleware, (req, res) => {
 });
 
 
-router.get('/', adminMiddleware, (req, res) => {
+router.get('/', userMiddleware, (req, res) => {
     // Implement fetching all todo logic
     res.json(todos);
 });
 
-router.get('/:id', adminMiddleware, (req, res) => {
+router.get('/:id', userMiddleware, (req, res) => {
     // Implement fetching todo by id logic
     const { id } = req.params;
     const todo = todos.find((t)=>t.id === parseInt(id));

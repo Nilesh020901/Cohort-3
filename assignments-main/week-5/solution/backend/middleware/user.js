@@ -1,4 +1,4 @@
-  const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET || 'secret000'; 
 
 const authenticateJwt = (req, res, next) => {

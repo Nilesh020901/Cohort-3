@@ -52,9 +52,20 @@ router.post('/login',async (req, res) => {
      }
 });
 
-router.get('/todos', userMiddleware, (req, res) => {
+router.get('/todos', userMiddleware, async (req, res) => {
     // Implement logic for getting todos for a user
-    
+    try {
+        const todos = await Todo.find({ userId: req.userId });
+        res.json({
+            message: "All todos are fetched",
+            todos: todos
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "Error fetching todos",
+            error: error.message
+        })
+    }
 });
 
 router.post('/logout', userMiddleware, (req, res) => {

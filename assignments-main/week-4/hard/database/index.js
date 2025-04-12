@@ -7,23 +7,31 @@ const connectToDatabase = async () => {
         console.log("Database Connect");
     } catch (error) {
         console.log("Database connection failed:", error)
-        process.exit();
+        process.exit(1);
     }
 }
 // Define schemas
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
 
 const UserSchema = new mongoose.Schema({
     // Schema definition here
+    username: String,
+    password: String
 });
 
 const TodoSchema = new mongoose.Schema({
     // Schema definition here
+    userId: ObjectId,
+    title: String,
+    completed: Boolean
 });
 
 const User = mongoose.model('User', UserSchema);
 const Todo = mongoose.model('Todo', TodoSchema);
 
 module.exports = {
+    connectToDatabase,
     User,
     Todo
 }

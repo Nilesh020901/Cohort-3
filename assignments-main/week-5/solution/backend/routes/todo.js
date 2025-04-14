@@ -46,7 +46,7 @@ router.get("/", async (req, res) => {
         res.status(500).json({
             msg: "Error fetching todos",
             error: error.message,
-        });
+        }); 
     }
 });
 

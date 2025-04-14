@@ -175,10 +175,12 @@ async function completeTodo(id, completed) {
 
 // Toggle between Signup and Signin
 document.getElementById("toggle-signup").addEventListener("click", (e) => {
+    e.preventDefault();
     document.getElementById("signin-container").style.display = "none";
     document.getElementById("signup-container").style.display = "block";
 });
-document.getElementById("toggle-signin").addEventListener("click", () => {
+document.getElementById("toggle-signin").addEventListener("click", (e) => {
+    e.preventDefault();
     document.getElementById("signup-container").style.display = "none";
     document.getElementById("signin-container").style.display = "block";
 });         

@@ -173,7 +173,7 @@ async function completeTodo(id, completed) {
 }
 
 // Toggle between Signup and Signin
-document.getElementById('show-signin').addEventListener('click', (e) => {
+document.getElementById('toggle-sign        ').addEventListener('click', (e) => {
     e.preventDefault();
     document.getElementById('signup-container').style.display = 'none';
     document.getElementById('signin-container').style.display = 'block';

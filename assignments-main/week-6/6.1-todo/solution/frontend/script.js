@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost:3001/todos';
-
+ 
 // Fetch existing todos when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     fetchTodos();
@@ -51,7 +51,7 @@ document.getElementById('add-todo-btn').addEventListener('click', () => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        },
+        },      
         body: JSON.stringify(newTodo),
     })
         .then(response => response.json())

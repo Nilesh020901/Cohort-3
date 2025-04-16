@@ -14,7 +14,7 @@ function fetchTodos() {
         })
         .catch(error => console.error('Error fetching todos:', error));
 }
-
+    
 // Add a new todo to the DOM
 function addTodoToDOM(todo) {
     const todoList = document.getElementById('todo-list');

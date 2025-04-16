@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Fetch bookmarks from the backend
 function fetchBookmarks() {
-    fetch(API_URL)
+    fetch(API_URL)  
         .then(response => response.json())
         .then(bookmarks => {
             bookmarks.forEach(bookmark => addBookmarkToDOM(bookmark));
@@ -43,7 +43,7 @@ document.getElementById('add-todo-btn').addEventListener('click', () => {
     const categoryInput = document.getElementById('bookmark-category');
 
     if (!urlInput || !categoryInput || urlInput.value.trim() === '' || categoryInput.value.trim() === '') {
-        console.error('Please provide both URL and category.');
+        console.error(  );
         return;
     }
 

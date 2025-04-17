@@ -14,14 +14,24 @@ const port = process.env.PORT;
 // Define mongoose schemas
 const userSchema = new mongoose.Schema({
   // userSchema here
+  username: { type: String, require: true, unique: true },
+  password: { type: String, require: true },
+  purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "course" }]
 });
 
 const adminSchema = new mongoose.Schema({
 // adminSchema here
+username: { type: String, require: true, unique: true},
+password: { type: String, require: true },
 });
 
 const courseSchema = new mongoose.Schema({
 // courseSchema here
+title: { type: String, require: true },
+description: { type: String, require: true },
+price: { type: Number, require: true },
+imageLink: { type: String, require: true },
+publised: { type: Boolean, require: true }
 });
 
 // Define mongoose models
@@ -31,6 +41,20 @@ const Course = mongoose.model('Course', courseSchema);
 
 const authMiddleware = (req, res, next) => {
 //  authMiddleware logic here 
+const AuthHeader = req.headers.authorization;
+if (!AuthHeader || !AuthHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "You are not Authorized"})
+}
+
+const token = AuthHeader.split("")[1];
+
+try {
+    const decoded = jwt.verify(token, secret);
+    req.user = decoded;
+    next();
+} catch (error) {
+    return res.status(403).json({ message: 'Invalid token' });
+}
 };
 
 // Connect to MongoDB

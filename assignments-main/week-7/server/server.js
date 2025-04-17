@@ -13,25 +13,25 @@ const port = process.env.PORT;
 
 // Define mongoose schemas
 const userSchema = new mongoose.Schema({
-  // userSchema here
-  username: { type: String, require: true, unique: true },
-  password: { type: String, require: true },
-  purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "course" }]
+    // userSchema here
+    username: { type: String, require: true, unique: true },
+    password: { type: String, require: true },
+    purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "course" }]
 });
 
 const adminSchema = new mongoose.Schema({
-// adminSchema here
-username: { type: String, require: true, unique: true},
-password: { type: String, require: true },
+    // adminSchema here
+    username: { type: String, require: true, unique: true },
+    password: { type: String, require: true },
 });
 
 const courseSchema = new mongoose.Schema({
-// courseSchema here
-title: { type: String, require: true },
-description: { type: String, require: true },
-price: { type: Number, require: true },
-imageLink: { type: String, require: true },
-publised: { type: Boolean, require: true }
+    // courseSchema here
+    title: { type: String, require: true },
+    description: { type: String, require: true },
+    price: { type: Number, require: true },
+    imageLink: { type: String, require: true },
+    publised: { type: Boolean, require: true }
 });
 
 // Define mongoose models
@@ -40,37 +40,41 @@ const Admin = mongoose.model('Admin', adminSchema);
 const Course = mongoose.model('Course', courseSchema);
 
 const authMiddleware = (req, res, next) => {
-//  authMiddleware logic here 
-const AuthHeader = req.headers.authorization;
-if (!AuthHeader || !AuthHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "You are not Authorized"})
-}
+    //  authMiddleware logic here 
+    const AuthHeader = req.headers.authorization;
+    if (!AuthHeader || !AuthHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ message: "You are not Authorized" })
+    }
 
-const token = AuthHeader.split("")[1];
+    const token = AuthHeader.split("")[1];
 
-try {
-    const decoded = jwt.verify(token, secret);
-    req.user = decoded;
-    next();
-} catch (error) {
-    return res.status(403).json({ message: 'Invalid token' });
-}
+    try {
+        const decoded = jwt.verify(token, secret);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(403).json({ message: 'Invalid token' });
+    }
 };
 
 // Connect to MongoDB
-mongoose.connect('<YourMongoDbConnectionString>'); 
+mongoose.connect('<YourMongoDbConnectionString>');
 
 
 // Admin routes
-app.post('/admin/signup',async (req, res) => {
+app.post('/admin/signup', async (req, res) => {
     // logic to sign up admin
     try {
         const { username, password } = req.headers;
         const admin = await Admin.findOne({ username, password });
-        
+
         if (admin) {
             return res.status(401).json({ message: "You have already account" });
         }
+
+        const newAdmin = new Admin({ username, password });
+        await newAdmin.save(); 
+
         const token = jwt.sign({ username, role: "admin" }, secret, { expiresIn: "1h" });
         res.status(201).json({ message: "Successfully Signup", token });
     } catch (error) {
@@ -78,18 +82,18 @@ app.post('/admin/signup',async (req, res) => {
     }
 });
 
-app.post('/admin/login',async (req, res) => {
+app.post('/admin/login', async (req, res) => {
     // logic to log in admin
     try {
         const { username, password } = req.headers;
-    const admin = await Admin.findOne({ username, password });
+        const admin = await Admin.findOne({ username, password });
 
-    if (!admin) {
-        return res.status(401).json({ message: "You have not signup" });
-    }
+        if (!admin) {
+            return res.status(401).json({ message: "You have not signup" });
+        }
 
-    const token = jwt.sign({ username , role: "admin"}, secret, { expiresIn: "1h" });
-    res.status(201).json({ message: "Successfully loggedIn", token });
+        const token = jwt.sign({ username, role: "admin" }, secret, { expiresIn: "1h" });
+        res.status(201).json({ message: "Successfully loggedIn", token });
     } catch (error) {
         console.log("Internal Server Error");
     }
@@ -110,7 +114,7 @@ app.put('/admin/courses/:courseId', authMiddleware, async (req, res) => {
 
     try {
         const course = await Course.findById(courseId);
-        if(course) {
+        if (course) {
             course.title = updatedData.title;
             course.description = updatedData.description;
             course.price = updatedData.price;
@@ -128,29 +132,96 @@ app.put('/admin/courses/:courseId', authMiddleware, async (req, res) => {
     }
 });
 
-app.get('/admin/courses', (req, res) => {
-    // logic to get all courses
+app.get('/admin/courses',authMiddleware, async (req, res) => {
+    // logic to get all courses\
+    try {
+        const courses = await Admin.find({});
+    res.status(201).json({ courses });
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong' });
+    }
 });
 
 // User routes
-app.post('/users/signup', (req, res) => {
+app.post('/users/signup', async (req, res) => {
     // logic to sign up user
+    try {
+        const { username, password } = req.headers;
+        const user = await User.findOne({ username, password });
+
+        if (user) {
+            return res.status(401).json({ message: "You have already account" });
+        }
+
+        const newUser = new User({ username, password });
+        await newUser.save();
+
+        const token = jwt.sign({ username, role: "user" }, secret, { expiresIn: "1h" });
+        res.status(201).json({ message: "Signed-up Successfully", token });
+    } catch (error) {
+        console.log("Internal Server Error");
+    }
 });
 
-app.post('/users/login', (req, res) => {
+app.post('/users/login', async (req, res) => {
     // logic to log in user
+    try {
+        const { username, password } = req.headers;
+        const user = await User.findOne({ username, password });
+        if (!user) {
+            return res.status(401).json({ message: "You don't have acount" });
+        }
+
+        const token = jwt.sign({ username, role: "user" }, secret, { expiresIn: "1h" });
+        res.status(401).json({ message: "You are logged-In", token });
+    } catch (error) {
+        console.log("Internal Server Error");
+    }
 });
 
-app.get('/users/courses', (req, res) => {
+app.get('/users/courses',authMiddleware, async (req, res) => {
     // logic to list all courses
+    try {
+        const courses = await Course.find({ publised: true });
+        res.status(201).json({ courses });
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong' });
+    }
 });
 
-app.post('/users/courses/:courseId', (req, res) => {
+app.post('/users/courses/:courseId',authMiddleware, async (req, res) => {
     // logic to purchase a course
+    try {
+        const { username } = req.headers
+        const user = await User.findOne({ username });
+        const course = await Course.findById(req.params.courseId);
+
+        if(!course) {
+            return res.status(401).json({ message: "Course not found" })
+        }
+
+        user.purchasedCourses.push(course._id);
+        await user.save();
+
+        res.json({ message: "Course purchased"})
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong' });
+    }
 });
 
-app.get('/users/purchasedCourses', (req, res) => {
+app.get('/users/purchasedCourses',authMiddleware, async (req, res) => {
     // logic to view purchased courses
+    try {
+        const user = await User.findOne({ username: req.user.username }).populate('purchasedCourses');
+
+        if (user) {
+            res.status(201).json({ purchasedCourses: user.purchasedCourses});
+        } else {
+            res.status(404).json({ message: "User not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong on the server" });
+    }
 });
 
 app.listen(port, () => {

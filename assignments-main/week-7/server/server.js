@@ -62,20 +62,70 @@ mongoose.connect('<YourMongoDbConnectionString>');
 
 
 // Admin routes
-app.post('/admin/signup', (req, res) => {
+app.post('/admin/signup',async (req, res) => {
     // logic to sign up admin
+    try {
+        const { username, password } = req.headers;
+        const admin = await Admin.findOne({ username, password });
+        
+        if (admin) {
+            return res.status(401).json({ message: "You have already account" });
+        }
+        const token = jwt.sign({ username, role: "admin" }, secret, { expiresIn: "1h" });
+        res.status(201).json({ message: "Successfully Signup", token });
+    } catch (error) {
+        console.log("Internal Server Error");
+    }
 });
 
-app.post('/admin/login', (req, res) => {
+app.post('/admin/login',async (req, res) => {
     // logic to log in admin
+    try {
+        const { username, password } = req.headers;
+    const admin = await Admin.findOne({ username, password });
+
+    if (!admin) {
+        return res.status(401).json({ message: "You have not signup" });
+    }
+
+    const token = jwt.sign({ username , role: "admin"}, secret, { expiresIn: "1h" });
+    res.status(201).json({ message: "Successfully loggedIn", token });
+    } catch (error) {
+        console.log("Internal Server Error");
+    }
 });
 
-app.post('/admin/courses', (req, res) => {
+app.post('/admin/courses', authMiddleware, async (req, res) => {
     // logic to create a course
+    const course = new Course(req.body);
+    await course.save();
+
+    res.status(201).json({ message: "Course created successfully", courseId: course._id });
 });
 
-app.put('/admin/courses/:courseId', (req, res) => {
+app.put('/admin/courses/:courseId', authMiddleware, async (req, res) => {
     // logic to edit a course
+    const courseId = req.params.courseId;
+    const updatedData = req.body;
+
+    try {
+        const course = await Course.findById(courseId);
+        if(course) {
+            course.title = updatedData.title;
+            course.description = updatedData.description;
+            course.price = updatedData.price;
+            course.imageLink = updatedData.imageLink;
+            course.publised = updatedData.publised;
+
+            await course.save();
+
+            res.status(201).json({ message: 'Course updated successfully' })
+        } else {
+            res.status(404).json({ message: 'Course not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong' });
+    }
 });
 
 app.get('/admin/courses', (req, res) => {

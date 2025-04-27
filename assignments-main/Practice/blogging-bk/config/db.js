@@ -1,3 +1,4 @@
+const { text } = require("express");
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
@@ -43,8 +44,22 @@ const blogSchema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    }
+        ref: "User",
+        require: true
+    },
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
+    comments: [
+        {
+            user: { type: mongoose.Schema.Types.ObjectId },
+            text: { type: String, require: true },
+            createdAt: { type: Date, default: Date.now},
+        }
+    ]
 },
 {
     timestamps: true,

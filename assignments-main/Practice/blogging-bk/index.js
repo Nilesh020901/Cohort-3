@@ -1,12 +1,17 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const authrouter = require("./routes/authroutes")
+const blogrouter = require("./routes/blogrouter");
 const app = express()
 
 dotenv.config();
 connectDB
 
 app.use(express.json());
+
+app.use("/api/v1/auth", authrouter);
+app.use("/api/v1/blog", blogrouter);
 
 app.get("/", (req, res) => {
     res.send("API is running...");

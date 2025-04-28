@@ -5,12 +5,13 @@ const { blogModel } = require("../config/db");
 
 blogrouter.post("/create", protect, async function (req, res) {
     try {
-        const { title, body } = req.body;
+        const { title, body, coverImage } = req.body;
 
         const blog = new Blog({
             title,
             body,
-            user: req.user._id
+            user: req.user._id,
+            coverImage
         });
         await blogModel.save();
         res.status(201).json({ message: "Blog Created", blog });

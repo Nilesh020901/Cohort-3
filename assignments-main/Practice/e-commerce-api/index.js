@@ -16,7 +16,7 @@ app.use(express.json());
 app.use("/api/v1/auth", authRouter);
 app.use("api/v1/product", productRouter);
 app.use("api/v1/cart", cartRouter);
-app.use("api/v1/orders", orderRoutes)
+app.use("api/v1/orders", orderRouter);
 
 mongoose.connect(process.env.MONGO_URL, { userNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log("MONGODB Connected"))

@@ -1,6 +1,7 @@
 const express = require("express");
 const orderRouter = express.Router();
 const { authMiddleware } = require("../middleware/authMiddleware");
+const { adminOnly } = require("../middleware/authMiddleware")
 const Cart = require("../models/cart");
 const Order = require("../models/order");
 const Product = require("../models/product");
@@ -28,7 +29,7 @@ orderRouter.post("/place", authMiddleware, async (req, res) => {
                 product: item.product._id,
                 quantity: item.quantity
             })),
-            totalAmount = total
+            totalAmount: total
         });
 
         await newOrder.save();
@@ -42,6 +43,27 @@ orderRouter.post("/place", authMiddleware, async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+orderRouter.get("/my", authMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.userId;
+
+        const orders = await Order.find({ user: userId }).populate("products.product");
+        res.status(201).json({ orders });
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+orderRouter.get("/", authMiddleware, adminOnly, async (req, res) => {
+    try {
+        const orders = await Order.find().populate("products.product").populate("user", "name email");
+
+        res.status(201).json({ orders });
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
 
 module.exports = {
     orderRouter,

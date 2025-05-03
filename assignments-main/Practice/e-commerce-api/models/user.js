@@ -14,6 +14,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    isBanned: {
+        type: Boolean,
+        default: false
+    },      
     role: {
         type: String,
         enum: ["customer", "admin"], 

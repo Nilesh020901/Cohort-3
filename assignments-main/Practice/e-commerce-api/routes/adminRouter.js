@@ -81,6 +81,13 @@ adminRouter.get("/dasboard-stats", authMiddleware, adminOnly, async (req, res) =
         statusCount.forEach(item => {
             statusSummary[item._id] = item.count;
         });
+
+        res.status(200).json({
+            userCount,
+            orderCount,
+            totalRevenue,
+            orderByStatus: statusSummary
+        });
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
     }

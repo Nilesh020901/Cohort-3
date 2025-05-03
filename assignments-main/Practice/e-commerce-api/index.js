@@ -7,6 +7,7 @@ const authRouter = require("./routes/authRoutes");
 const productRouter = require("./routes/productRoutes");
 const cartRouter = require("./routes/cartRouter");
 const orderRouter = require("./routes/orderRoutes");
+const adminRouter = require("./routes/adminRouter");
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("api/v1/product", productRouter);
 app.use("api/v1/cart", cartRouter);
 app.use("api/v1/orders", orderRouter);
+app.use("api/v1/admin", adminRouter);
 
 mongoose.connect(process.env.MONGO_URL, { userNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log("MONGODB Connected"))

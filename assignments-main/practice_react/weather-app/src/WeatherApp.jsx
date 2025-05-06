@@ -1,38 +1,16 @@
 import React, {useState} from "react";
+import useFetchWeather from "./useFetchWeater";
 
 function WeatherApp() {
     const [city, setCity] = useState("");
-    const [weather, setWeather] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
-
+    const { weather, loading, error, fetchWeather } = use
     const handleChange = (e) => {
         setCity(e.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Search city:", city); // Next step: API call
-
-        if (!city) return;
-
-        setLoading(true);
-        setError("");
-        setWeather(null);
-
-        setTimeout(() => {
-            if (city.toLowerCase() === "mumbai") {
-                setWeather({
-                    city: "Mumbai",
-                    temp: "32°C",
-                    condition: "Sunny ☀️"
-                });
-                setLoading(false);
-            } else {
-                setError("City not found ❌")
-                setLoading(false);
-            }
-        }, 2000);
+        fetchWeather(city);
     }
 
     return(

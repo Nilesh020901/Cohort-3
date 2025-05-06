@@ -1,34 +1,36 @@
 import { useState } from "react";
 
-function useFetchWeater() {
+const API_KEY = "34390a97d43446de8bbca2d7560942a2";
+
+function useFetchWeather() {
     const [weather, setWeather] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const fetchWeather = (city) => {
+    const fetchWeather = async (city) => {
         if (!city) {
             return;
         }
 
         setLoading(true);
         setError("");
-        setWeather(null);
-
-        setTimeout(() => {
-            if (city.toLowerCase() === "mumbai") {
-                setWeather({
-                    city: "Mumbai",
-                    temp: "32°C",
-                    condition: "Sunny ☀️"
-                });
-                setLoading(false);
-            } else {
-                setError("City not found ❌");
-                setLoading(false);
+        try {
+            const res = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+            );
+            if (!res.ok) {
+                throw new Error("City not found");
             }
-        }, 2000);
+            const data = await res.json();
+            setWeather(data);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
+
     return { weather, loading, error, fetchWeather};
 }
 
-export default useFetchWeater;
+export default useFetchWeather;

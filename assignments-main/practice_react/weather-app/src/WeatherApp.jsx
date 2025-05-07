@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useFetchWeather } from "./useFetchWeather";
+import { useFetchWeather } from "./useFetchWeather.js";
 
 const WeatherApp = () => {
   const [city, setCity] = useState("");

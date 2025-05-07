@@ -1,36 +1,30 @@
 import { useState } from "react";
 
-const API_KEY = "34390a97d43446de8bbca2d7560942a2";
+const API_KEY = "34390a97d43446de8bbca2d7560942a2"; // 🔑 Replace with your real API key
 
-function useFetchWeather() {
-    const [weather, setWeather] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
+export const useFetchWeather = () => {
+  const [weatherData, setWeatherData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-    const fetchWeather = async (city) => {
-        if (!city) {
-            return;
-        }
+  const fetchWeather = async (city) => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+      );
+      if (!res.ok) {
+        throw new Error("City not found");
+      }
+      const data = await res.json();
+      setWeatherData(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        setLoading(true);
-        setError("");
-        try {
-            const res = await fetch(
-                `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
-            );
-            if (!res.ok) {
-                throw new Error("City not found");
-            }
-            const data = await res.json();
-            setWeather(data);
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return { weather, loading, error, fetchWeather};
-}
-
-export default useFetchWeather;
+  return { weatherData, loading, error, fetchWeather };
+};

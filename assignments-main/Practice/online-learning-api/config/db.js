@@ -60,12 +60,40 @@ const courseSchema = new mongoose.Schema({
 },
 {
     timestamps: true
-})
+});
+
+const enrollmentSchema = new mongoose.Schema({
+    student: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
+    course: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+        required: true,
+    },
+    progress: {
+        type: Number,
+        default: 0,
+    },
+    completed: {
+        type: Boolean,
+        default: "false",
+    }
+},
+{
+    timestamps: true,
+});
+
+enrollmentSchema.index({ student: 1, course: 1 }, { unique: true });
 
 const userModel = mongoose.model("User", userSchema);
 const courseModel = mongoose.model("Course", courseSchema);
+const enrollmentModel = mongoose.model("Enrollment", enrollmentSchema);
 
 module.exports = {
     userModel,
-    courseModel
+    courseModel,
+    enrollmentModel,
 }

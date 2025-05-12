@@ -4,11 +4,16 @@ const express = require("express");
 const http = require("http");
 const { WebSocketServer } = require("ws");
 const mongoose = require("mongoose");
+const authRouter = require("./routes/authRoutes");
+const teamRouter = require("./routes/teamRoutes")
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
+app.use("/api/auth", authRouter);
+app.use("/api/teams", teamRouter);
 
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log("Connected to MongoDB"))

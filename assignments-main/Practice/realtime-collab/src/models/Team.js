@@ -9,7 +9,7 @@ const teamSchema = new mongoose.Schema({
     description: {
         type: String,
     },
-    memebers: [{
+    members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     }],

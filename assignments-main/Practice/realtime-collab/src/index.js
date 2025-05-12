@@ -3,9 +3,16 @@ require("dotenv").config();
 const express = require("express");
 const http = require("http");
 const { WebSocketServer } = require("ws");
+const mongoose = require("mongoose");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+
+mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => console.log("Connected to MongoDB"))
+.catch(() => console.log("DB connection error"))
 
 const server = http.createServer(app);
 

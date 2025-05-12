@@ -45,7 +45,7 @@ authRouter.post("/login", async (req, res) => {
         const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
         res.status(201).json({ message: "Sign-In successfully", token });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: "Internal Server Error" });
     }
 })
 

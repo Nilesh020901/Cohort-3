@@ -2,7 +2,6 @@ const express = require("express");
 const productRouter = express.Router();
 const { authMiddleware, adminOnly } = require("../middleware/authMiddleware");
 const Product = require("../models/product");
-const product = require("../models/product");
 
 productRouter.post("/create", authMiddleware, adminOnly, async (req, res) => {
     try {

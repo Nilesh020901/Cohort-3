@@ -27,31 +27,54 @@ const wss = new WebSocketServer({ server })
 
 const documentClients = new Map();
 wss.on("connection", (ws) => {
-    try {
-        const { type, documentId, content } = JSON.parse(message);
+    console.log("New Client connected");
 
-        if (type === "join") {
-            if (!documentClients.has(documentId)) {
-                documentClients.set(documentId, new Set());
-            }
-            documentClients.get(documentId).add(ws);
-            console.log(`Client joined document: ${documentId}`);
-        }
+    ws.on("message", async (message) => {
+        try {
+            const { type, documentId, content, version } = JSON.parse(message);
 
-        if (type === "update") {
-            const clients = documentClients.get(documentId) || [];
-            clients.forEach((client) => {
-                if (client !== ws && client.readyState === ws.OPEN) {
-                    client.send(JSON.stringify({ type: "update", content }));
+            if (type === "join") {
+                if (!documentClients.has(documentId)) {
+                    documentClients.set(documentId, new Set());
                 }
-            });
-            `Client joined document: ${documentId}`
+                documentClients.get(documentId).add(ws);
+                console.log(`Client joined document: ${documentId}`);
+            }
+
+            if (type === "update") {
+                const document = await Document.findById(documentId);
+
+                if (version < document.version) {
+                    ws.send(JSON.stringify({
+                        type: "conflict",
+                        currentVersion: document.version,
+                        currentContent: document.content
+                    }));
+                    return;
+                }
+
+                document.content = content;
+                document.version += 1;
+                await document.save();
+
+                const clients = documentClients.get(documentId) || [];
+                clients.forEach((client) => {
+                    if (client !== ws && client.readyState === ws.OPEN) {
+                        client.send(JSON.stringify({ type: "update", content }));
+                    }
+                });
+            }
+        } catch (err) {
+            console.error('Error handling WebSocket message:', err);
         }
-    } catch (error) {
-        console.error('Error handling WebSocket message:', err);
-    }
-    
+    })
     ws.on("close", () => {
+        documentClients.forEach((clients, docId) => {
+            clients.delete(ws);
+            if (clients.size === 0) {
+                documentClients.delete(docId);
+            }
+        });
         console.log("Client disconnected");
     });
 });

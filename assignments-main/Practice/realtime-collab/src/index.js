@@ -64,6 +64,16 @@ wss.on("connection", (ws) => {
                     }
                 });
             }
+
+            if (type === "revert") {
+                const document = await Document.findById(documentId);
+                const clients = documentClients.get(documentId) || [];
+                clients.forEach((client) => {
+                    if (client !== ws && client.readyState === ws.OPEN) {
+                        client.send(JSON.stringify({ type: "revert", content: document.content}));
+                    }
+                }); 
+            }
         } catch (err) {
             console.error('Error handling WebSocket message:', err);
         }

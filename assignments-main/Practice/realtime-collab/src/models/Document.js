@@ -13,6 +13,13 @@ const documentSchema = new mongoose.Schema({
         type: Number,
         default: 1,
     },
+    history: [
+        {
+            version: Number,
+            content: String,
+            updatedAt: Date,
+        }
+    ]
     teamId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Team",

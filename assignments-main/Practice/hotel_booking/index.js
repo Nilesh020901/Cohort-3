@@ -5,12 +5,15 @@ require("dotenv").config();
 const PORT = process.env.PORT || 3000
 const db = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
-const roomRouter = require("./routes/roomRoutes");
+const roomRoutes = require("./routes/roomRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 
 app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/room", roomRoutes);
+app.use("/api/booking", bookingRoutes);
 
 app.get("/", (req, res) => {
     res.send('Hotel Booking System API');

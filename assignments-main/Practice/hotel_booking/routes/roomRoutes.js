@@ -1,7 +1,7 @@
 const express = require("express");
 const roomRouter = express.Router();
-const { authmiddleware, authAdmin } = require("");
-const db = require("")
+const { authmiddleware, authAdmin } = require("../middleware/authMiddleware");
+const db = require("../config/db");
 
 roomRouter.post("/add", authmiddleware, authAdmin, async (req, res) => {
     const { name, type, price, availability } = req.body;

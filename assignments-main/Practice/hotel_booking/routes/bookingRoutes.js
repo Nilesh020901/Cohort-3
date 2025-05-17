@@ -1,7 +1,7 @@
 const express = require("express");
 const bookingRouter = express.Router();
-const { authMiddleware } = require("");
-const db = require("");
+const { authMiddleware } = require("../middleware/authMiddleware");
+const db = require("../config/db");
 
 bookingRouter.post("/book", authMiddleware, async (req, res) => {
     const { roomId, bookingDate } = req.body;

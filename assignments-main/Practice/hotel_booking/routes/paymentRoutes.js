@@ -22,7 +22,7 @@ paymentRouter.post("/create-checkout-session", authMiddleware, async (req, res) 
             line_items: [
                 {
                     price_data: {
-                        currency: "inr",
+                        currency: "usd",
                         product_data: {
                             name: roomDetails.name,
                             description: roomDetails.type,

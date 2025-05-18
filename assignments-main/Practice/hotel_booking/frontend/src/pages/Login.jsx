@@ -14,7 +14,7 @@ function Login() {
         try {
             await login({ email, password })
         } catch (error) {
-            setError('Invalid credentials');
+            setError('Invalid credentials' );
         }
     }
     return (

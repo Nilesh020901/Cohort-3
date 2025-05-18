@@ -8,13 +8,14 @@ function Login() {
     const [error, setError] = useState("");
     const { login } = useAuth();
     const navigate = useNavigate();
+    const hello = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await login({ email, password })
         } catch (error) {
-            setError('Invalid credentials' );
+            setError('Invalid credentials');
         }
     }
     return (

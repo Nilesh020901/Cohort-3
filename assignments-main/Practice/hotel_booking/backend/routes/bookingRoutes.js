@@ -36,7 +36,7 @@ bookingRouter.delete("/cancel/:id", authMiddleware, async (req, res) => {
         }
 
         await db.query("UPDATE bookings SET status = $1 WHERE id = $2", ["cancelled", id]);
-        await db.query("UPDATE bookings SET availability = true WHERE id = $2", [booking.rows[0].room_id]);
+        await db.query("UPDATE rooms SET availability = true WHERE id = $1", [booking.rows[0].room_id]);
 
         res.json({ message: 'Booking cancelled successfully' });
     } catch (error) {

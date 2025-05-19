@@ -5,6 +5,7 @@ import Signup from "../pages/Signup";
 import Dashboard from "../pages/Dashboard";
 import AdminDashboard from "../pages/AdminDashboard";
 import AdminRoutes from "./AdminRoutes";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 function AppRoutes() {
     return (
@@ -13,7 +14,7 @@ function AppRoutes() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dashboard" element={<ProtectedRoutes><Dashboard /></ProtectedRoutes>} />
                 <Route path="/admin" element={<AdminRoutes><AdminDashboard /></AdminRoutes>} />
             </Routes>
         </Router>

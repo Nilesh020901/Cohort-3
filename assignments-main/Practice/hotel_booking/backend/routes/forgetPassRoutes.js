@@ -42,4 +42,30 @@ resetPassword.post("/forget-password", async (req, res) => {
     }
 });
 
+resetPassword.post("/reset-password/:token", async (req, res) => {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    try {
+        const user = await db.query(
+            "SELECT * FROM users WHERE reset_token = $1 AND reset_token_expires > NOW()",
+            [token]
+        );
+
+        if (!user.rows.length === 0) {
+            return res.status(400).json({ message: "Invalid or expired token" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await db.query(
+            "UPDATE users SET password = $1, reset_token = NULL, reset_token_expires = NULL WHERE id = $2",
+            [hashedPassword, user.rows[0].id]
+        );
+
+        res.json({ message: "Password reset successful" });
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+})
+
 module.exports = resetPassword;

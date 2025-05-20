@@ -81,6 +81,6 @@ paymentRouter.post("/webhook", express.raw({ type: "application/json" }), async 
         console.log(`Webhook Error: ${error.message}`);
         res.status(400).send(`Webhook Error: ${error.message}`);
     }
-})
+});
 
 module.exports = paymentRouter;

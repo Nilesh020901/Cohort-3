@@ -10,8 +10,8 @@ const authRoutes = require("./routes/authRoutes");
 const roomRoutes = require("./routes/roomRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
-const editRoutes = require("./routes/editRouter")
-
+const editRoutes = require("./routes/editRouter");
+const resetPasswordRoutes = require("./routes/forgetPassRoutes")
 app.use(cors());
 app.use(express.json());
 
@@ -22,6 +22,7 @@ app.use("/api/room", roomRoutes);
 app.use("/api/booking", bookingRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/upload", editRoutes);
+app.use("/api/reset", resetPasswordRoutes);
 
 app.get("/", (req, res) => {
     res.send('Hotel Booking System API');

@@ -4,7 +4,7 @@ const { authMiddleware } = require("../middleware/authMiddleware");
 const db = require("../config/db");
 
 bookingRouter.post("/book", authMiddleware, async (req, res) => {
-    const { roomId, bookingDate } = req.body;
+    const { roomId, check_in, check_out } = req.body;
     const userId = req.user.userId;
 
     try {
@@ -14,8 +14,8 @@ bookingRouter.post("/book", authMiddleware, async (req, res) => {
         }
 
         await db.query(
-            "INSERT INTO bookings (user_id, room_id, booking_date, status) VALUES ($1, $2, $3, $4)",
-            [userId, roomId, bookingDate, "confirmed"]
+            "INSERT INTO bookings (user_id, room_id, check_in, check_out, status) VALUES ($1, $2, $3, $4)",
+            [userId, roomId, check_in, check_out, "confirmed"]
         );
 
         await db.query("UPDATE rooms SET availability = false WHERE id = $1", [roomId]);

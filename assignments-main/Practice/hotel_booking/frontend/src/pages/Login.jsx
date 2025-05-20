@@ -8,12 +8,12 @@ function Login() {
     const [error, setError] = useState("");
     const { login } = useAuth();
     const navigate = useNavigate();
-    const hello = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await login({ email, password })
+            await login({ email, password });
+            navigate('/dashboard');
         } catch (error) {
             setError('Invalid credentials');
         }

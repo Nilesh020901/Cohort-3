@@ -2,24 +2,28 @@ const express = require("express");
 const bookingRouter = express.Router();
 const { authMiddleware } = require("../middleware/authMiddleware");
 const db = require("../config/db");
-const sendEmail = require("../utils/senEmail");
+const sendEmail = require("../utils/sendEmail");
 
 bookingRouter.post("/book", authMiddleware, async (req, res) => {
     const { roomId, check_in, check_out } = req.body;
     const userId = req.user.userId;
 
     try {
+        const userRes = await db.query("SELECT name, email FROM users WHERE id = $1", [userId]);
+        const user = userRes.rows[0];
+
         const room = await db.query("SELECT * FROM rooms WHERE id = $1 AND availability = true", [roomId]);
         if (room.rows.length === 0) {
             return res.status(404).json({ message: 'Room not available' });
         }
 
         await db.query(
-            "INSERT INTO bookings (user_id, room_id, check_in, check_out, status) VALUES ($1, $2, $3, $4)",
+            "INSERT INTO bookings (user_id, room_id, check_in, check_out, status, booking_date) VALUES ($1, $2, $3, $4, $5, NOW())",
             [userId, roomId, check_in, check_out, "confirmed"]
         );
 
         await db.query("UPDATE rooms SET availability = false WHERE id = $1", [roomId]);
+
         await sendEmail({
             to: user.email,
             subject: "Booking Confirmed!",
@@ -29,6 +33,7 @@ bookingRouter.post("/book", authMiddleware, async (req, res) => {
                    <p><strong>Check-in:</strong> ${check_in}<br/>
                    <strong>Check-out:</strong> ${check_out}</p>`
         });
+
         res.status(201).json({ message: 'Room booked successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
@@ -46,7 +51,10 @@ bookingRouter.delete("/cancel/:id", authMiddleware, async (req, res) => {
         }
 
         await db.query("UPDATE bookings SET status = $1 WHERE id = $2", ["cancelled", id]);
-        await db.query("UPDATE rooms SET availability = true WHERE id = $1", [booking.rows[0].room_id]);
+        await db.query("UPDATE rooms SET availability = true WHERE id = $1", [roomId]);
+
+        const userRes = await db.query("SELECT name, email FROM users WHERE id = $1", [userId]);
+        const user = userRes.rows[0];
 
         // TODO: Refund logic (can be added here if integrated with Stripe)
         await sendEmail({
@@ -54,6 +62,7 @@ bookingRouter.delete("/cancel/:id", authMiddleware, async (req, res) => {
             subject: 'Booking Cancelled',
             text: `Your booking for Room ${roomId} has been cancelled.`,
         });
+        
         res.json({ message: 'Booking cancelled successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });

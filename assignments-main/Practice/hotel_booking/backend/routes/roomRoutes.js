@@ -4,11 +4,11 @@ const { authMiddleware, authAdmin } = require("../middleware/authMiddleware");
 const db = require("../config/db");
 
 roomRouter.post("/add", authMiddleware, authAdmin, async (req, res) => {
-    const { name, type, price, availability } = req.body;
+    const { name, type, price, availability, amenities, rating, description } = req.body;
     try {
         await db.query(
-            "INSERT INTO rooms (name, type, price, availability) VALUES ($1, $2, $3, $4)",
-            [name, type, price, availability]
+            "INSERT INTO rooms (name, type, price, availability, amenities, rating, description) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+            [name, type, price, availability, amenities, rating, description]
         );
 
         res.status(201).json({ message: "Room added successfully" });
@@ -19,12 +19,12 @@ roomRouter.post("/add", authMiddleware, authAdmin, async (req, res) => {
 
 roomRouter.put("/update/:id", authMiddleware, authAdmin, async (req, res) => {
     const { id } = req.params;
-    const { name, type, price, availability } = req.body;
+    const { name, type, price, availability, amenities, rating, description  } = req.body;
 
     try {
         await db.query(
-            "UPDATE rooms SET name = $1, type = $2, price = $3, availability = $4 WHERE id = $5",
-            [name, type, price, availability, id]
+            "UPDATE rooms SET name = $1, type = $2, price = $3, availability = $4, amenities = $5, rating = $6, description = $7 WHERE id = $5",
+            [name, type, price, availability, amenities, rating, description, id]
         );
 
         res.status(201).json({ message: "Room updated successfully" });

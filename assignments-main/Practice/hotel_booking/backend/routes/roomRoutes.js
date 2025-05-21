@@ -49,8 +49,17 @@ roomRouter.delete("/delete/:id", authMiddleware, authAdmin, async (req, res) => 
 })
 
 roomRouter.get("/all", async (req, res) => {
+    const { page = 1, limit = 10, search = "" } = req.query;
+    const offset = (page - 1) * limit;
+
     try {
-        const result = await db.query("SELECT * FROM rooms WHERE availability = true");
+        const result = await db.query(`SELECT * FROM rooms 
+             WHERE availability = true AND 
+             (LOWER(name) LIKE LOWER($1) OR LOWER(type) LIKE LOWER($1))
+             ORDER BY id DESC
+             LIMIT $2 OFFSET $3`,
+            [`%${search}%`, limit, offset]);
+
         res.status(201).json(result.rows);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });

@@ -15,7 +15,8 @@ resetPassword.post("/forget-password", async (req, res) => {
         }
 
         const resetToken = crypto.randomBytes(32).toString("hex");
-        const tokenExpiry = new Date(Date.now() + 3600000);
+        const tokenExpiry = new Date(Date.now() + 3600000); 
+
         await db.query(
             "UPDATE users SET reset_token = $1, reset_token_expires = $2 WHERE email = $3",
             [resetToken, tokenExpiry, email]
@@ -29,15 +30,17 @@ resetPassword.post("/forget-password", async (req, res) => {
             },
         });
 
-        const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+        const resetLink = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
         await transporter.sendMail({
             to: email,
             subject: "Password Reset Request",
+            text: `Reset your password by visiting: ${resetLink}`,
             html: `<p>You requested a password reset. Click <a href="${resetLink}">here</a> to set a new password. This link expires in 1 hour.</p>`
         });
 
         res.json({ message: "Reset link sent to email." });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Server error" });
     }
 });
@@ -52,11 +55,12 @@ resetPassword.post("/reset-password/:token", async (req, res) => {
             [token]
         );
 
-        if (!user.rows.length === 0) {
+        if (user.rows.length === 0) {
             return res.status(400).json({ message: "Invalid or expired token" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+
         await db.query(
             "UPDATE users SET password = $1, reset_token = NULL, reset_token_expires = NULL WHERE id = $2",
             [hashedPassword, user.rows[0].id]
@@ -64,8 +68,9 @@ resetPassword.post("/reset-password/:token", async (req, res) => {
 
         res.json({ message: "Password reset successful" });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Server error" });
     }
-})
+});
 
 module.exports = resetPassword;

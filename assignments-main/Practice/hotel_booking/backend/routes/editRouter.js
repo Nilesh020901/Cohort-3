@@ -11,21 +11,24 @@ editRouter.put("/updateprofile", authMiddleware, async (req, res) => {
 
     try {
         const emailCheck = await db.query("SELECT * FROM users WHERE email = $1 AND id != $2", [email, userId]);
-        if (emailCheck > 0) {
+        if (emailCheck.rows.length > 0) {
             return res.status(400).json({ message: 'Email already in use by another user' });
         }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         await db.query(
             "UPDATE users SET name = $1, email = $2, password = $3 WHERE id = $4",
             [name, email, hashedPassword, userId]
         );
-        res.status({ message: 'Profile updated successfully' })
+
+        res.status(200).json({ message: 'Profile updated successfully' });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 });
 
-editRouter.put("/profile/upload", authMiddleware, async (req, res) => {
+editRouter.put("/profile/upload", authMiddleware, upload.single("profile_pic"), async (req, res) => {
     const userId = req.user.id;
     const file = req.file;
 
@@ -35,6 +38,7 @@ editRouter.put("/profile/upload", authMiddleware, async (req, res) => {
 
     try {
         const imagePath = file.filename;
+
         const result = await db.query(
             "UPDATE users SET profile_pic = $1 WHERE id = $2 RETURNING profile_pic",
             [imagePath, userId]
@@ -42,10 +46,9 @@ editRouter.put("/profile/upload", authMiddleware, async (req, res) => {
 
         res.status(200).json({ message: "Profile picture updated", profile_pic: result.rows[0].profile_pic });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Server error during file upload' });
     }
-})
-
-
+});
 
 module.exports = editRouter;

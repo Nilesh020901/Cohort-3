@@ -28,7 +28,7 @@ editRouter.put("/updateprofile", authMiddleware, async (req, res) => {
     }
 });
 
-editRouter.put("/profile/upload", authMiddleware, upload.single("profile_pic"), async (req, res) => {
+editRouter.put("/profile/upload", authMiddleware, upload.single("image"), async (req, res) => {
     const userId = req.user.id;
     const file = req.file;
 

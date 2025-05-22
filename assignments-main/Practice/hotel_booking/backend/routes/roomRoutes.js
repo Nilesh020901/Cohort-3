@@ -4,10 +4,11 @@ const path = require("path");
 const fs = require("fs");
 const { authMiddleware, authAdmin } = require("../middleware/authMiddleware");
 const db = require("../config/db");
-const upload = require("../utils/multerConfigProfile");
+const upload = require("../utils/multerConfigRoom");
 
-roomRouter.post("/add", authMiddleware, authAdmin, upload.array("images", 5), async (req, res) => {
+roomRouter.post("/add", authMiddleware, authAdmin, uploadRoom.array("images", 5), async (req, res) => {
     const { name, type, price, availability, amenities, rating, description } = req.body;
+    const files = req.files;
     try {
         await db.query(
             "INSERT INTO rooms (name, type, price, availability, amenities, rating, description) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",

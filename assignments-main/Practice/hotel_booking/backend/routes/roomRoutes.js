@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const { authMiddleware, authAdmin } = require("../middleware/authMiddleware");
 const db = require("../config/db");
-const upload = require("../utils/multerConfig");
+const upload = require("../utils/multerConfigProfile");
 
 roomRouter.post("/add", authMiddleware, authAdmin, upload.array("images", 5), async (req, res) => {
     const { name, type, price, availability, amenities, rating, description } = req.body;

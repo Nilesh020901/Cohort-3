@@ -2,7 +2,7 @@ const express = require("express");
 const { authMiddleware } = require("../middleware/authMiddleware");
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
-const upload = require("../utils/multerConfig");
+const upload = require("../utils/multerConfigProfile");
 const editRouter = express.Router();
 
 editRouter.put("/updateprofile", authMiddleware, async (req, res) => {

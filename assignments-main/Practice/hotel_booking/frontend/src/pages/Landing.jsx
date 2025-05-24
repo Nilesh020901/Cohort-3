@@ -1,4 +1,4 @@
-function Landing() {
+const Landing = () => {
   return (
     <div>
       <h1>Welcome to the Hotel Booking App</h1>

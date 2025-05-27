@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 const MainLayout = () => (
     <>
         <Navbar />
-        <main className="min-h-screen">
+        <main className="max-w-7xl mx-auto px-6 py-6">
             <Outlet />
         </main>
         <Footer />

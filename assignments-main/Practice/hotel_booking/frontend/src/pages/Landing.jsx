@@ -1,8 +1,10 @@
+import hotelRoom from "../assets/hotel_room.jpg";
+
 const Landing = () => {
   return (
-    <div>
-      <h1>Welcome to the Hotel Booking App</h1>
-      <p>Your one-stop solution for booking hotels.</p>
+    <div className="space-y-16">
+      {/* Banner Section */}
+      <div className="bg-cover bg-center rounded-3xl p-32" style={{ backgroundImage: `url(${hotelRoom})`}}></div>
     </div>
   );
 }

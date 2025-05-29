@@ -1,4 +1,5 @@
 import hotelRoom from "../assets/hotel_room.jpg";
+import PopularDestinations from "../components/PopularDestinations";
 
 const Landing = () => {
   return (
@@ -17,6 +18,9 @@ const Landing = () => {
             </button>
           </div>
         </div>
+      </div>
+      <div>
+        <PopularDestinations />
       </div>
     </div>
   );

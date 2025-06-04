@@ -7,7 +7,7 @@ const stripe = require("../utils/stripe");
 
 bookingRouter.post("/book", authMiddleware, async (req, res) => {
     const { roomId, check_in, check_out } = req.body;
-    const userId = req.user.userId;
+    const userId = req.user.userId; //changes done
 
     try {
         

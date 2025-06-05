@@ -1,13 +1,13 @@
 const destinations = [
   // Left template
-  { name: "Spain", image: "/images/spain.jpg", className: "row-span-3" },
-  { name: "London", image: "/images/london.jpg", className: "col-span-2" },
-  { name: "Lisbon", image: "/images/lisbon.jpg", className: "col-span-2 row-span-2" },
+  { name: "Spain", image: "/images/spain.jpg", className: "row-span-3 col-span-2" },
+  { name: "London", image: "/images/london.jpg", className: "row-span-1 col-span-2" },
+  { name: "Lisbon", image: "/images/lisbon.jpg", className: "row-span-2 col-span-2" },
 
   // Right template
-  { name: "Croatia", image: "/images/croatia.jpg", className: "row-span-3" },
-  { name: "Bratislava", image: "/images/bratislava.jpg", className: "col-span-2" },
-  { name: "Copenhagen", image: "/images/copenhagen.jpg", className: "col-span-2 row-span-2" },
+  { name: "Croatia", image: "/images/crotia.jpg", className: "row-span-3 col-span-2" },
+  { name: "Bratislava", image: "/images/bratislava.jpg", className: "row-span-2 col-span-2" },
+  { name: "Copenhagen", image: "/images/copenhagen.jpg", className: "row-span-1 col-span-2" },
 ];
 
 const PopularDestinations = () => {
@@ -15,9 +15,9 @@ const PopularDestinations = () => {
     <section className="p-6">
       <h2 className="text-2xl font-semibold mb-4">Popular destinations</h2>
 
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-4">
         {/* Left Template */}
-        <div className="grid grid-flow-col grid-rows-3 gap-4">
+        <div className="grid grid-flow-col grid-rows-2 gap-4">
           {destinations.slice(0, 3).map((dest, index) => (
             <div
               key={index}
@@ -36,7 +36,7 @@ const PopularDestinations = () => {
         </div>
 
         {/* Right Template */}
-        <div className="grid grid-flow-col grid-rows-3 gap-4">
+        <div className="grid grid-flow-col grid-rows-2 gap-4">
           {destinations.slice(3, 6).map((dest, index) => (
             <div
               key={index}

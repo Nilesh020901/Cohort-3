@@ -40,13 +40,13 @@ const hotels = [
 
 const LovedHotels = () => {
   return (
-    <section className="py-6 px-4">
+    <section className="py-6">
       <h2 className="text-2xl font-semibold my-6">Hotels loved by guests</h2>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {hotels.map((hotel, index) => (
           <div
             key={index}
-            className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-lg transition"
+            className="bg-slate-50 rounded-2xl overflow-hidden shadow-md hover:scale-105 hover:shadow-xl transform transition-all duration-300 ease-in-out"
           >
             <div className="relative m-2 overflow-hidden rounded-2xl">
               <img

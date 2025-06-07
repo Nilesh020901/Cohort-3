@@ -21,8 +21,9 @@ function AppRoutes() {
                 <Route path="/signup" element={<Signup />} />
             </Route>
 
+            <Route path="/" element={<Landing />} />
+
             <Route element={<MainLayout />}>
-                <Route path="/" element={<Landing />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/hotel/:id" element={<HotelView />} />
                 <Route path="/booking/id" element={<Booking />} />

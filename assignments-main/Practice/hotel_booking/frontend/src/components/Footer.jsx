@@ -5,7 +5,7 @@ function Footer() {
                 <div>
                     <h2 className="font-bold text-lg">Hotel Booking</h2>
                     <p className="text-sm text-gray-600">Your favorite hotel booking experience since 1997!</p>
-                    <p className="text-sm text-gray-400 mt-2">© 2022 Uizard</p>
+                    <p className="text-sm text-gray-400 mt-2">© 2025 Hotels</p>
                 </div>
                 <ul>
                     <li><a href="#" className="text-gray-600 hover:text-gray-800 transition-all duration-200 ease-in-out">Privacy Policy</a></li>

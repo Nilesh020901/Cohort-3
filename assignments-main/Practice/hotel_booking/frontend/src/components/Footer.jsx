@@ -3,7 +3,7 @@ function Footer() {
         <footer className="bg-gray-100 p-10 mt-10">
             <div className="flex justify-between">
                 <div>
-                    <h2 className="font-bold text-lg">Hotel Booking</h2>
+                    <h2 className="font-bold text-lg">Stayza</h2>
                     <p className="text-sm text-gray-600">Your favorite hotel booking experience since 1997!</p>
                     <p className="text-sm text-gray-400 mt-2">© 2025 Hotels</p>
                 </div>

@@ -2,76 +2,57 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+export default function Login() {
+    const { login } = useAuth();
+    const navigate = useNavigate();
+    const [form, setForm] = useState({
+        email: "",
+        password: ""
+    });
+
+    const handleChange = async (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await login(form);
+            navigate("/dashboard");
+        } catch (error) {
+            alert("Login failed. Please check your credentials.");
+            console.error("Login error:", error);
+        }
+    }
+
     return (
-        <div className="p-6 text-center">
-            <h1 className="text-2xl font-bold">Login</h1>
-            <form className="mt-4 space-y-4">
-                <input
+        <>
+            <h2 className="text-2xl font-bold">Stayza</h2>
+            <p>Welcome back to Stayza — Your hotel’s smart sidekick.</p>
+            <form onSubmit={handleSubmit}>
+                <input 
                     type="text"
+                    name="email"
                     placeholder="Email"
-                    className="w-full p-2 border rounded"
+                    value={form.email}
+                    onChange={handleChange}
+                    className="w-full border rounded-full px-4 py-2"
+                    required 
                 />
-                <input
+                <input 
                     type="password"
+                    name="password"
                     placeholder="Password"
-                    className="w-full p-2 border rounded"
+                    value={form.password}
+                    onChange={handleChange}
+                    className="w-full border rounded-full px-4 py-2"
+                    required 
                 />
-                <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded">
+                <button type="submit" className="w-full bg-[#8B6E44] text-white rounded-full py-2">
                     Login
                 </button>
+                <p className="text-center text-sm mt-2">
+                    Don't have an account? <a href="/signup" className="text-[#8B6E44] font-medium">Sign up</a>
+                </p>
             </form>
-        </div>
-    );
-}
-
-export default Login;
-
-// import { useState } from "react";
-// import { useAuth } from "../context/AuthContext";
-// import { useNavigate } from "react-router-dom";
-
-// function Login() {
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-//     const [error, setError] = useState("");
-//     const { login } = useAuth();
-//     const navigate = useNavigate();
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         try {
-//             await login({ email, password });
-//             navigate('/dashboard');
-//         } catch (error) {
-//             setError('Invalid credentials');
-//         }
-//     }
-//     return (
-//         <div className="p-6 text-center">
-//             <h1 className="text-2xl font-bold">Login</h1>
-//             {error && <p className="text-red-500">{error}</p>}
-//             <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-//                 <input
-//                     type="text"
-//                     placeholder="Email"
-//                     value={email}
-//                     onChange={(e) => setEmail(e.target.value)}
-//                     className="w-full p-2 border rounded"
-//                 />
-//                 <input
-//                     type="password"
-//                     placeholder="Password"
-//                     value={password}
-//                     onChange={(e) => setPassword(e.target.value)}
-//                     className="w-full p-2 border rounded"
-//                 />
-//                 <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded">
-//                     Login
-//                 </button>
-//             </form>
-//         </div>
-//     );
-// }
-
-// export default Login;
+        </>
+    )
+};

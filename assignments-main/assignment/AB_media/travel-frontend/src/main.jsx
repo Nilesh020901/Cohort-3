@@ -1,10 +1,12 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import React from 'react'
+import ReactDom from 'react-dom/client'
 import App from './App.jsx'
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+const  queryClient = new QueryClient();
+
+ReactDom.createRoot(document.getElementById('root')).render(
+  <QueryClientProvider client={queryClient}>
     <App />
-  </StrictMode>,
-)
+  </QueryClientProvider>
+);

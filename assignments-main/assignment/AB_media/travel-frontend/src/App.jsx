@@ -1,20 +1,34 @@
+import { Container, Typography, Box } from "@mui/material";
+import Hero from "./components/Hero";
 import DestinationList from "./components/DestinationList";
 import PackageList from "./components/PackageList";
-import { Container, Typography } from "@mui/material";
+import Advantages from "./components/Advantages";
+import Testimonials from "./components/Testimonials";
 
 function App() {
   return (
-    <Container maxWidth="lg" sx={{ paddingTop: 4, paddingBottom: 4 }}>
-      <Typography variant="h4" mt={4} mb={2}>
-        Explore Most Popular Destinations
-      </Typography>
-      <DestinationList />
+    <>
+      <Hero />
 
-      <Typography variant="h4" mt={6} mb={2}>
-        Top Selling Tour Packages of India
-      </Typography>
-      <PackageList />
-    </Container>
+      <Container sx={{ py: 5 }}>
+        <Box mb={4}>
+          <Typography variant="h4" fontWeight={600} gutterBottom>
+            Explore Most Popular Destinations
+          </Typography>
+          <DestinationList />
+        </Box>
+
+        <Box mt={6}>
+          <Typography variant="h4" fontWeight={600} gutterBottom>
+            Top Selling Tour Packages of India
+          </Typography>
+          <PackageList />
+        </Box>
+
+        <Advantages />
+        <Testimonials />
+      </Container>
+    </>
   );
 }
 

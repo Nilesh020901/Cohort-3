@@ -1,16 +1,25 @@
 import { useQuery } from "react-query";
 import { fetchTopPackages } from "../api/packages";
-import { Card, CardContent, Typography, Grid, Skeleton } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  Skeleton,
+  CardMedia,
+  Box,
+} from "@mui/material";
 
 const PackageList = () => {
-  const { data, isLoading, error } = useQuery("top-packages", fetchTopPackages);
+  const { data, isLoading } = useQuery("top-packages", fetchTopPackages);
 
   if (isLoading) {
     return (
-      <Grid container columns={12} columnSpacing={2} rowSpacing={2}>
+      <Grid container spacing={3}>
         {[...Array(6)].map((_, i) => (
-          <Grid key={i} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-            <Skeleton variant="rectangular" height={150} />
+          <Grid item xs={12} sm={6} md={4} key={i}>
+            <Skeleton variant="rectangular" height={180} />
+            <Skeleton width="80%" />
             <Skeleton width="60%" />
           </Grid>
         ))}
@@ -18,23 +27,24 @@ const PackageList = () => {
     );
   }
 
-  if (error) {
-    return <Typography color="error">Failed to load packages.</Typography>;
-  }
-
   return (
-    <Grid container columns={12} columnSpacing={2} rowSpacing={2}>
-      {data?.map((item, index) => (
-        <Grid key={index} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-          <Card>
+    <Grid container spacing={3}>
+      {data.map((item, index) => (
+        <Grid item xs={12} sm={6} md={4} key={index}>
+          <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
+            <CardMedia
+              component="img"
+              height="180"
+              image={item.image}
+              alt={item.title}
+            />
             <CardContent>
-              <Typography variant="h6">{item.title}</Typography>
-              <Typography variant="body2">{item.description}</Typography>
-              <img
-                src={item.image}
-                alt={item.title}
-                style={{ width: "100%", height: 150, objectFit: "cover" }}
-              />
+              <Typography variant="h6" gutterBottom>
+                {item.title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {item.description}
+              </Typography>
             </CardContent>
           </Card>
         </Grid>

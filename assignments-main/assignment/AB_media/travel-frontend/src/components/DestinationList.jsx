@@ -1,41 +1,76 @@
 import { useQuery } from "react-query";
 import { fetchDestinations } from "../api/destination";
-import { Card, CardContent, Typography, Grid, Skeleton } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Skeleton,
+  CardMedia,
+  Box,
+} from "@mui/material";
+import Slider from "react-slick";
 
 const DestinationList = () => {
-  const { data, isLoading, error } = useQuery("destinations", fetchDestinations);
+  const { data, isLoading } = useQuery("destinations", fetchDestinations);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,      // desktop
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 960, // tab
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 600, // mob
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
 
   if (isLoading) {
     return (
-      <Grid container columns={12} columnSpacing={2} rowSpacing={2}>
-        {[...Array(6)].map((_, i) => (
-          <Grid key={i} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-            <Skeleton variant="rectangular" height={150} />
-            <Skeleton width="60%" />
-          </Grid>
+      <Box display="flex" gap={2}>
+        {[...Array(3)].map((_, i) => (
+          <Box key={i} width={300}>
+            <Skeleton variant="rectangular" height={180} />
+            <Skeleton width="80%" />
+          </Box>
         ))}
-      </Grid>
+      </Box>
     );
   }
 
-  if (error) {
-    return <Typography color="error">Failed to load destinations.</Typography>;
-  }
-
   return (
-    <Grid container columns={12} columnSpacing={2} rowSpacing={2}>
-      {data?.map((item, index) => (
-        <Grid key={index} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-          <Card>
+    <Slider {...settings}>
+      {data.map((item, index) => (
+        <Box key={index} px={1}>
+          <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
+            <CardMedia
+              component="img"
+              height="180"
+              image={item.image}
+              alt={item.name}
+            />
             <CardContent>
               <Typography variant="h6">{item.name}</Typography>
-              <Typography variant="body2">{item.price}</Typography>
-              <img src={item.image} alt={item.name} style={{ width: "100%", height: 150 }} />
+              <Typography variant="body2" color="text.secondary">
+                {item.price}
+              </Typography>
             </CardContent>
           </Card>
-        </Grid>
+        </Box>
       ))}
-    </Grid>
+    </Slider>
   );
 };
 

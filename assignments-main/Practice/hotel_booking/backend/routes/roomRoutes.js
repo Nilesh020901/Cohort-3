@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const { authMiddleware, authAdmin } = require("../middleware/authMiddleware");
 const db = require("../config/db");
-const upload = require("../utils/multerConfigRoom");
+const uploadRoom = require("../utils/multerConfigRoom");
 
 roomRouter.post("/add", authMiddleware, authAdmin, uploadRoom.array("images", 5), async (req, res) => {
     const { name, type, price, availability, amenities, rating, description } = req.body;
@@ -110,7 +110,7 @@ roomRouter.delete("/image/:imageId", authMiddleware, authAdmin, async (req, res)
     }
 });
 
-roomRouter.put("/image/:imageId", authMiddleware, authAdmin, upload.single("image"), async (req, res) => {
+roomRouter.put("/image/:imageId", authMiddleware, authAdmin, uploadRoom.single("image"), async (req, res) => {
     const { imageId } = req.params;
     const file = req.file;
     if (!file) return res.status(400).json({ message: "No file uploaded" });

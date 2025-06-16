@@ -16,6 +16,6 @@ const fileFilter = (req, res, cb) => {
     allowed.includes(file.mimetype) ? cb(null, true) : cb(new Error("Only images are allowed"));
 };
 
-const upload = multer({ storage, fileFilter });
+const uploadRoom = multer({ storage, fileFilter });
 
-module.exports = upload;
+module.exports = uploadRoom;
